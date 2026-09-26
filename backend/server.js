@@ -11,9 +11,31 @@ require("dotenv").config();
 const app = express();
 const httpServer = createServer(app);
 
+// CORS Configuration for local & production deployments
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    const clientUrl = process.env.CLIENT_URL;
+    if (
+      !clientUrl ||
+      origin === clientUrl ||
+      origin.endsWith(".vercel.app") ||
+      origin.endsWith(".onrender.com") ||
+      origin.includes("localhost") ||
+      process.env.NODE_ENV !== "production"
+    ) {
+      return callback(null, true);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+};
+
 // Socket.io setup
 const io = new Server(httpServer, {
-  cors: { origin: process.env.CLIENT_URL || "http://localhost:5173", methods: ["GET","POST"] }
+  cors: corsOptions,
+  transports: ["websocket", "polling"]
 });
 
 // Make io available to routes
@@ -21,7 +43,7 @@ app.set("io", io);
 
 // Middleware
 app.use(helmet({ crossOriginResourcePolicy: false }));
-app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173", credentials: true }));
+app.use(cors(corsOptions));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));

@@ -1,6 +1,10 @@
 import axios from "axios";
 
-const api = axios.create({ baseURL: "/api", withCredentials: true });
+const BACKEND_URL = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace(/\/+$/, "") : "";
+const api = axios.create({ 
+  baseURL: BACKEND_URL ? `${BACKEND_URL}/api` : "/api", 
+  withCredentials: true 
+});
 
 // Request interceptor - attach token
 api.interceptors.request.use((config) => {
@@ -18,7 +22,8 @@ api.interceptors.response.use(
       original._retry = true;
       try {
         const refreshToken = localStorage.getItem("refreshToken");
-        const { data } = await axios.post("/api/auth/refresh", { refreshToken });
+        const refreshEndpoint = BACKEND_URL ? `${BACKEND_URL}/api/auth/refresh` : "/api/auth/refresh";
+        const { data } = await axios.post(refreshEndpoint, { refreshToken });
         localStorage.setItem("token", data.token);
         localStorage.setItem("refreshToken", data.refreshToken);
         original.headers.Authorization = `Bearer ${data.token}`;

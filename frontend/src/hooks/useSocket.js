@@ -10,7 +10,8 @@ export function useSocket() {
 
   useEffect(() => {
     if (user && !socketInstance) {
-      socketInstance = io("http://localhost:5000", { transports: ["websocket"] });
+      const socketUrl = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace(/\/+$/, "") : "http://localhost:5000";
+      socketInstance = io(socketUrl, { transports: ["websocket", "polling"] });
       socketRef.current = socketInstance;
     }
     if (user && socketInstance) {
