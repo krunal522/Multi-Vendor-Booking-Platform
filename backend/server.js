@@ -59,6 +59,14 @@ app.use("/api/admin",         require("./src/routes/admin.routes"));
 app.use("/api/notifications", require("./src/routes/notification.routes"));
 app.use("/api/upload",        require("./src/routes/upload.routes"));
 
+// Root endpoint
+app.get("/", (req, res) => res.json({
+  name: "ServeBook Multi-Vendor Booking Platform API",
+  status: "online",
+  version: "1.0.0",
+  docs: "API is live and accepting requests"
+}));
+
 // Health check
 app.get("/api/health", (req, res) => res.json({ status: "ok", timestamp: new Date() }));
 
@@ -95,6 +103,6 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/booking-p
 
 const PORT = process.env.PORT || 5000;
 httpServer.listen(PORT, () => {
-  console.log(`?? Server running on http://localhost:${PORT}`);
-  console.log(`?? Socket.io ready`);
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`⚡ Socket.io ready`);
 });
