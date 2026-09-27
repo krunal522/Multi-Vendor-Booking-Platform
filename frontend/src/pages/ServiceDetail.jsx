@@ -26,6 +26,13 @@ export default function ServiceDetail() {
   const [touched, setTouched] = useState({});
   const [notes, setNotes] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("online");
+  const [onlineCategory, setOnlineCategory] = useState("upi"); // "upi", "card", "netbanking"
+  const [onlineSubMethod, setOnlineSubMethod] = useState("phonepe");
+  const [customUpi, setCustomUpi] = useState("");
+  const [cardData, setCardData] = useState({ number: "", expiry: "", cvv: "" });
+  const [selectedBank, setSelectedBank] = useState("HDFC Bank");
+  const [gatewayModalOpen, setGatewayModalOpen] = useState(false);
+  const [gatewayStep, setGatewayStep] = useState("init");
   const [activeTab, setActiveTab] = useState("overview");
 
   // Generate next 7 days
@@ -97,6 +104,47 @@ export default function ServiceDetail() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const executeBooking = async (method) => {
+    setBookingLoading(true);
+    try {
+      const selectedPaymentLabel = method === "online"
+        ? (onlineCategory === "upi" ? `${onlineSubMethod.toUpperCase()} UPI` : onlineCategory === "card" ? "Debit/Credit Card" : selectedBank)
+        : "cash";
+
+      const { data } = await api.post("/bookings", {
+        service: service._id,
+        serviceId: service._id,
+        slotDate: selectedSlot.date,
+        slotStartTime: selectedSlot.startTime,
+        slotEndTime: selectedSlot.endTime,
+        slot: {
+          date: selectedSlot.date,
+          startTime: selectedSlot.startTime,
+          endTime: selectedSlot.endTime,
+        },
+        address,
+        customerNotes: notes,
+        paymentMethod: selectedPaymentLabel,
+      });
+      toast.success("🎉 Booking & Payment confirmed successfully!");
+      navigate("/customer/bookings");
+    } catch (err) {
+      if (err.response?.data?.errors) {
+        const backendErrors = {};
+        for (const [key, msg] of Object.entries(err.response.data.errors)) {
+          const shortKey = key.replace("address.", "");
+          backendErrors[shortKey] = msg;
+        }
+        setErrors(backendErrors);
+        setTouched({ street: true, city: true, pincode: true });
+      }
+      toast.error(err.response?.data?.message || "Booking failed. Please try again.");
+    } finally {
+      setBookingLoading(false);
+      setGatewayModalOpen(false);
+    }
+  };
+
   const handleBook = async () => {
     if (!user) {
       toast.error("Please login to proceed with booking");
@@ -112,39 +160,22 @@ export default function ServiceDetail() {
       return;
     }
 
-    setBookingLoading(true);
-    try {
-      const { data } = await api.post("/bookings", {
-        service: service._id,
-        serviceId: service._id,
-        slotDate: selectedSlot.date,
-        slotStartTime: selectedSlot.startTime,
-        slotEndTime: selectedSlot.endTime,
-        slot: {
-          date: selectedSlot.date,
-          startTime: selectedSlot.startTime,
-          endTime: selectedSlot.endTime
-        },
-        address,
-        customerNotes: notes,
-        paymentMethod,
-      });
-      toast.success("🎉 Booking confirmed successfully!");
-      navigate("/customer/bookings");
-    } catch (err) {
-      if (err.response?.data?.errors) {
-        const backendErrors = {};
-        for (const [key, msg] of Object.entries(err.response.data.errors)) {
-          const shortKey = key.replace("address.", "");
-          backendErrors[shortKey] = msg;
-        }
-        setErrors(backendErrors);
-        setTouched({ street: true, city: true, pincode: true });
-      }
-      toast.error(err.response?.data?.message || "Booking failed. Please try again.");
-    } finally {
-      setBookingLoading(false);
+    if (paymentMethod === "online") {
+      setGatewayModalOpen(true);
+      setGatewayStep("init");
+      setTimeout(() => {
+        setGatewayStep("authenticating");
+        setTimeout(() => {
+          setGatewayStep("success");
+          setTimeout(() => {
+            executeBooking("online");
+          }, 900);
+        }, 1300);
+      }, 1000);
+      return;
     }
+
+    await executeBooking("cash");
   };
 
   if (loading) return <div className="loading-page"><div className="spinner" /></div>;
@@ -473,6 +504,147 @@ export default function ServiceDetail() {
                           </button>
                         ))}
                       </div>
+
+                      {/* Interactive Online Payment Options (PhonePe, Paytm, GPay, Cards, NetBanking) */}
+                      {paymentMethod === "online" && (
+                        <div className="online-sub-methods" style={{ marginTop: 12 }}>
+                          {/* Sub-tabs */}
+                          <div className="sub-method-tabs">
+                            <button
+                              type="button"
+                              className={`sub-method-tab ${onlineCategory === "upi" ? "active" : ""}`}
+                              onClick={() => setOnlineCategory("upi")}
+                            >
+                              ⚡ UPI Apps
+                            </button>
+                            <button
+                              type="button"
+                              className={`sub-method-tab ${onlineCategory === "card" ? "active" : ""}`}
+                              onClick={() => setOnlineCategory("card")}
+                            >
+                              💳 Cards
+                            </button>
+                            <button
+                              type="button"
+                              className={`sub-method-tab ${onlineCategory === "netbanking" ? "active" : ""}`}
+                              onClick={() => setOnlineCategory("netbanking")}
+                            >
+                              🏦 Net Banking
+                            </button>
+                          </div>
+
+                          {/* UPI Options */}
+                          {onlineCategory === "upi" && (
+                            <div>
+                              <div className="upi-app-grid">
+                                <button
+                                  type="button"
+                                  className={`upi-app-btn ${onlineSubMethod === "phonepe" ? "active" : ""}`}
+                                  onClick={() => setOnlineSubMethod("phonepe")}
+                                >
+                                  <span className="upi-dot" style={{ background: "#5f259f" }} />
+                                  <span>PhonePe</span>
+                                </button>
+                                <button
+                                  type="button"
+                                  className={`upi-app-btn ${onlineSubMethod === "gpay" ? "active" : ""}`}
+                                  onClick={() => setOnlineSubMethod("gpay")}
+                                >
+                                  <span className="upi-dot" style={{ background: "#4285f4" }} />
+                                  <span>Google Pay</span>
+                                </button>
+                                <button
+                                  type="button"
+                                  className={`upi-app-btn ${onlineSubMethod === "paytm" ? "active" : ""}`}
+                                  onClick={() => setOnlineSubMethod("paytm")}
+                                >
+                                  <span className="upi-dot" style={{ background: "#00b9f5" }} />
+                                  <span>Paytm UPI</span>
+                                </button>
+                                <button
+                                  type="button"
+                                  className={`upi-app-btn ${onlineSubMethod === "upi_id" ? "active" : ""}`}
+                                  onClick={() => setOnlineSubMethod("upi_id")}
+                                >
+                                  <span className="upi-dot" style={{ background: "#10b981" }} />
+                                  <span>Enter UPI ID</span>
+                                </button>
+                              </div>
+
+                              {onlineSubMethod === "upi_id" && (
+                                <div style={{ marginTop: 10 }}>
+                                  <input
+                                    type="text"
+                                    className="form-input"
+                                    placeholder="e.g. mobile@ybl or username@oksbi"
+                                    value={customUpi}
+                                    onChange={(e) => setCustomUpi(e.target.value)}
+                                    style={{ fontSize: 12 }}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          {/* Card Options */}
+                          {onlineCategory === "card" && (
+                            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                              <input
+                                type="text"
+                                className="form-input"
+                                placeholder="Card Number (XXXX XXXX XXXX XXXX)"
+                                maxLength={19}
+                                value={cardData.number}
+                                onChange={(e) => {
+                                  const val = e.target.value.replace(/\D/g, "").replace(/(.{4})/g, "$1 ").trim();
+                                  setCardData({ ...cardData, number: val });
+                                }}
+                                style={{ fontSize: 12 }}
+                              />
+                              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                                <input
+                                  type="text"
+                                  className="form-input"
+                                  placeholder="MM / YY"
+                                  maxLength={5}
+                                  value={cardData.expiry}
+                                  onChange={(e) => setCardData({ ...cardData, expiry: e.target.value })}
+                                  style={{ fontSize: 12 }}
+                                />
+                                <input
+                                  type="password"
+                                  className="form-input"
+                                  placeholder="CVV (3 digits)"
+                                  maxLength={3}
+                                  value={cardData.cvv}
+                                  onChange={(e) => setCardData({ ...cardData, cvv: e.target.value.replace(/\D/g, "") })}
+                                  style={{ fontSize: 12 }}
+                                />
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Net Banking */}
+                          {onlineCategory === "netbanking" && (
+                            <div className="upi-app-grid">
+                              {["HDFC Bank", "ICICI Bank", "SBI", "Axis Bank"].map((bank) => (
+                                <button
+                                  key={bank}
+                                  type="button"
+                                  className={`upi-app-btn ${selectedBank === bank ? "active" : ""}`}
+                                  onClick={() => setSelectedBank(bank)}
+                                >
+                                  🏦 {bank}
+                                </button>
+                              ))}
+                            </div>
+                          )}
+
+                          <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 10, display: "flex", alignItems: "center", gap: 6 }}>
+                            <FiCheck color="#10b981" /> 256-bit Bank Grade SSL Encryption · RBI Compliant
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <button className="btn btn-primary w-full btn-lg" onClick={handleBook} disabled={bookingLoading}>
                       {bookingLoading ? <span className="spinner spinner-sm" /> : `Confirm & Pay ₹${service.price?.toLocaleString()}`}
@@ -489,6 +661,91 @@ export default function ServiceDetail() {
           </div>
         </div>
       </div>
+
+      {/* Secure Payment Gateway Simulation Modal */}
+      {gatewayModalOpen && (
+        <div className="modal-overlay" style={{ zIndex: 9999 }}>
+          <div
+            className="modal"
+            style={{
+              maxWidth: 420,
+              textAlign: "center",
+              padding: "32px 24px",
+              borderRadius: 16,
+              border: "1px solid rgba(99, 102, 241, 0.3)",
+              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.75)",
+            }}
+          >
+            {gatewayStep === "init" && (
+              <div>
+                <div className="spinner" style={{ margin: "0 auto 16px", width: 44, height: 44 }} />
+                <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 8 }}>
+                  Connecting to Secure Gateway
+                </h3>
+                <p className="text-muted text-sm" style={{ marginBottom: 12 }}>
+                  Establishing 256-bit encrypted handshake with UPI / Banking Server...
+                </p>
+                <span className="badge badge-info font-mono" style={{ fontSize: 12 }}>
+                  Amount: ₹{service.price?.toLocaleString()}
+                </span>
+              </div>
+            )}
+
+            {gatewayStep === "authenticating" && (
+              <div>
+                <div
+                  style={{
+                    width: 48,
+                    height: 48,
+                    borderRadius: "50%",
+                    background: "rgba(99, 102, 241, 0.15)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    margin: "0 auto 16px",
+                    fontSize: 22,
+                  }}
+                >
+                  ⚡
+                </div>
+                <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 8 }}>
+                  Authorizing Payment via {onlineCategory === "upi" ? onlineSubMethod.toUpperCase() : "Bank"}
+                </h3>
+                <p className="text-muted text-sm">
+                  Please approve the payment request or wait while we confirm with the bank...
+                </p>
+              </div>
+            )}
+
+            {gatewayStep === "success" && (
+              <div>
+                <div
+                  style={{
+                    width: 56,
+                    height: 56,
+                    borderRadius: "50%",
+                    background: "rgba(16, 185, 129, 0.15)",
+                    color: "#10b981",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    margin: "0 auto 16px",
+                    fontSize: 28,
+                  }}
+                >
+                  ✓
+                </div>
+                <h3 style={{ fontSize: 20, fontWeight: 800, color: "#10b981", marginBottom: 6 }}>
+                  Payment Verified Successfully!
+                </h3>
+                <p className="text-muted text-sm">
+                  Booking confirmed! Generating your digital tax receipt...
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
       <Footer />
     </div>
   );

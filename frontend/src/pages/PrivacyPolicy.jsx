@@ -2,14 +2,39 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/common/Navbar";
 import Footer from "../components/common/Footer";
-import { 
-  FiShield, FiLock, FiKey, FiDatabase, FiCheckCircle, 
-  FiUserCheck, FiCreditCard, FiServer, FiEyeOff, FiFileText 
+import {
+  FiShield,
+  FiLock,
+  FiKey,
+  FiDatabase,
+  FiCheckCircle,
+  FiUserCheck,
+  FiCreditCard,
+  FiServer,
+  FiFileText,
+  FiMail,
+  FiPhone,
+  FiMapPin,
+  FiAlertCircle,
+  FiLayers,
 } from "react-icons/fi";
-import { MdVerified, MdSecurity } from "react-icons/md";
+import { MdVerified, MdSecurity, MdGavel } from "react-icons/md";
 
 export default function PrivacyPolicy() {
-  const [activeSection, setActiveSection] = useState("overview");
+  const [activeTab, setActiveTab] = useState("consumer"); // "consumer" or "security_audit"
+  const [activeSection, setActiveSection] = useState("collection");
+
+  const legalSections = [
+    { id: "collection", title: "1. Information We Collect" },
+    { id: "usage", title: "2. How We Use Information" },
+    { id: "payment", title: "3. Payments & Financial Data" },
+    { id: "sharing", title: "4. Sharing with Service Partners" },
+    { id: "retention", title: "5. Data Retention & Deletion" },
+    { id: "rights", title: "6. User Rights & DPDP Compliance" },
+    { id: "cookies", title: "7. Cookies & Analytics" },
+    { id: "refund", title: "8. Refund & Cancellation Terms" },
+    { id: "grievance", title: "9. Grievance Officer (IT Act 2000)" },
+  ];
 
   const securityFeatures = [
     {
@@ -48,332 +73,425 @@ export default function PrivacyPolicy() {
     <div className="page-wrapper">
       <Navbar />
 
-      {/* Hero Banner */}
-      <div style={{
-        background: "linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(139, 92, 246, 0.05) 100%)",
-        borderBottom: "1px solid var(--border)",
-        padding: "60px 0 40px"
-      }}>
-        <div className="container" style={{ textAlign: "center", maxWidth: 800 }}>
-          <div style={{ 
-            display: "inline-flex", 
-            alignItems: "center", 
-            gap: 8, 
-            background: "rgba(99, 102, 241, 0.15)", 
-            color: "var(--primary)", 
-            padding: "6px 14px", 
-            borderRadius: 20, 
-            fontSize: 13, 
-            fontWeight: 700, 
-            marginBottom: 16 
-          }}>
-            <MdSecurity size={16} /> ENTERPRISE-GRADE PRIVACY & ARCHITECTURE
+      {/* Hero Header */}
+      <div
+        style={{
+          background: "linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(139, 92, 246, 0.05) 100%)",
+          borderBottom: "1px solid var(--border)",
+          padding: "54px 0 36px",
+        }}
+      >
+        <div className="container" style={{ textAlign: "center", maxWidth: 840 }}>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "6px 16px",
+              background: "rgba(99, 102, 241, 0.15)",
+              border: "1px solid rgba(99, 102, 241, 0.3)",
+              borderRadius: 30,
+              fontSize: 13,
+              color: "#a5b4fc",
+              fontWeight: 600,
+              marginBottom: 16,
+            }}
+          >
+            <MdSecurity size={16} /> Trust & Transparency Center
           </div>
-          <h1 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 900, letterSpacing: "-0.03em", marginBottom: 16 }}>
-            Privacy Policy & Platform Security
+
+          <h1 style={{ fontSize: 34, fontWeight: 800, marginBottom: 12 }}>
+            ServeBook Privacy Policy & Trust Standards
           </h1>
-          <p style={{ color: "var(--text-muted)", fontSize: 16, lineHeight: 1.8 }}>
-            At <strong>ServeBook</strong>, protecting your personal data, transaction confidentiality, and customer privacy 
-            is built directly into our core system design. Here is how your data is protected.
+          <p className="text-muted" style={{ fontSize: 15, lineHeight: 1.7, marginBottom: 24 }}>
+            We believe your home and personal data deserve uncompromising protection. This policy outlines how ServeBook Technologies Pvt. Ltd. collects, safeguards, and handles your information.
           </p>
-          <div style={{ display: "flex", justifyContent: "center", gap: 20, marginTop: 24, fontSize: 13, color: "var(--text-muted)" }}>
-            <span>📅 Last Updated: September 2026</span>
-            <span>•</span>
-            <span>🛡️ ISO/IEC 27001 Aligned Controls</span>
-            <span>•</span>
-            <span>🔒 DPDP Act Compliant</span>
-          </div>
-        </div>
-      </div>
 
-      <div className="container" style={{ padding: "48px 0 80px" }}>
-        {/* Navigation Tabs */}
-        <div style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: 12,
-          flexWrap: "wrap",
-          marginBottom: 40
-        }}>
-          {[
-            { id: "overview", label: "Security Architecture", icon: <FiShield /> },
-            { id: "privacy", label: "Data Privacy & Sharing", icon: <FiEyeOff /> },
-            { id: "auth", label: "Authentication & RBAC", icon: <FiKey /> },
-            { id: "payments", label: "Payments & Financials", icon: <FiCreditCard /> },
-            { id: "rights", label: "Your Rights & Control", icon: <FiUserCheck /> }
-          ].map(tab => (
+          <div style={{ display: "flex", justifyContent: "center", gap: 16, fontSize: 13, color: "var(--text-muted)", flexWrap: "wrap" }}>
+            <span><strong>Effective Date:</strong> September 27, 2026</span>
+            <span>·</span>
+            <span><strong>Entity:</strong> ServeBook Technologies Pvt. Ltd. (CIN: U72900MH2024PTC398124)</span>
+            <span>·</span>
+            <span><MdVerified color="#10b981" style={{ display: "inline" }} /> DPDP Act 2023 Compliant</span>
+          </div>
+
+          {/* Mode Switcher Tabs */}
+          <div
+            style={{
+              display: "inline-flex",
+              background: "var(--surface2)",
+              border: "1px solid var(--border)",
+              borderRadius: 30,
+              padding: 4,
+              marginTop: 28,
+            }}
+          >
             <button
-              key={tab.id}
-              onClick={() => setActiveSection(tab.id)}
-              className={`btn btn-sm ${activeSection === tab.id ? "btn-primary" : "btn-outline"}`}
-              style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 20px" }}
+              onClick={() => setActiveTab("consumer")}
+              style={{
+                padding: "8px 20px",
+                borderRadius: 24,
+                border: "none",
+                background: activeTab === "consumer" ? "var(--primary)" : "transparent",
+                color: activeTab === "consumer" ? "#fff" : "var(--text-muted)",
+                fontWeight: 600,
+                fontSize: 13,
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+              }}
             >
-              {tab.icon} {tab.label}
+              📋 Consumer & Partner Privacy Policy
             </button>
-          ))}
-        </div>
-
-        {/* Section 1: Security Architecture */}
-        {activeSection === "overview" && (
-          <div>
-            <div style={{ textAlign: "center", maxWidth: 650, margin: "0 auto 36px" }}>
-              <h2 style={{ fontSize: 26, fontWeight: 800 }}>Full-Stack Security Architecture</h2>
-              <p className="text-muted" style={{ marginTop: 8 }}>
-                Engineered with defense-in-depth principles across frontend, network, backend API, and database layers.
-              </p>
-            </div>
-
-            <div style={{ 
-              display: "grid", 
-              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", 
-              gap: 20, 
-              marginBottom: 40 
-            }}>
-              {securityFeatures.map((f, i) => (
-                <div key={i} className="card" style={{ padding: 24, display: "flex", gap: 16 }}>
-                  <div style={{ 
-                    width: 44, 
-                    height: 44, 
-                    borderRadius: 10, 
-                    background: "var(--surface2)", 
-                    display: "flex", 
-                    alignItems: "center", 
-                    justifyContent: "center", 
-                    flexShrink: 0 
-                  }}>
-                    {f.icon}
-                  </div>
-                  <div>
-                    <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 6 }}>{f.title}</h3>
-                    <p className="text-muted" style={{ fontSize: 13, lineHeight: 1.6 }}>{f.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Architecture Details Box */}
-            <div className="card" style={{ padding: 32, background: "var(--surface)" }}>
-              <h3 style={{ fontSize: 20, fontWeight: 800, marginBottom: 16, display: "flex", alignItems: "center", gap: 10 }}>
-                <FiServer color="var(--primary)" /> Defense-in-Depth Layer Breakdown
-              </h3>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20 }}>
-                <div style={{ borderLeft: "3px solid var(--primary)", paddingLeft: 14 }}>
-                  <div className="font-semibold" style={{ fontSize: 14 }}>1. Application & Input Layer</div>
-                  <p className="text-muted text-xs" style={{ marginTop: 4 }}>
-                    Real-time frontend validation and strict backend <code>express-validator</code> schemas prevent malformed or malicious inputs before touching business logic.
-                  </p>
-                </div>
-                <div style={{ borderLeft: "3px solid #10b981", paddingLeft: 14 }}>
-                  <div className="font-semibold" style={{ fontSize: 14 }}>2. Session & Token Layer</div>
-                  <p className="text-muted text-xs" style={{ marginTop: 4 }}>
-                    JWT claims contain minimal data (User ID, Role). Tokens are signed with strong 256-bit secrets and verified on every protected API call.
-                  </p>
-                </div>
-                <div style={{ borderLeft: "3px solid #f59e0b", paddingLeft: 14 }}>
-                  <div className="font-semibold" style={{ fontSize: 14 }}>3. Database & Storage Layer</div>
-                  <p className="text-muted text-xs" style={{ marginTop: 4 }}>
-                    MongoDB compound indexes enforce unique constraints, atomic slot reservations, and isolated document tenancies per vendor.
-                  </p>
-                </div>
-                <div style={{ borderLeft: "3px solid #ec4899", paddingLeft: 14 }}>
-                  <div className="font-semibold" style={{ fontSize: 14 }}>4. Rate-Limiting & Anti-DDoS</div>
-                  <p className="text-muted text-xs" style={{ marginTop: 4 }}>
-                    IP-based throttling via <code>express-rate-limit</code> curbs automated brute force, credential stuffing, and bot scanning.
-                  </p>
-                </div>
-              </div>
-            </div>
+            <button
+              onClick={() => setActiveTab("security_audit")}
+              style={{
+                padding: "8px 20px",
+                borderRadius: 24,
+                border: "none",
+                background: activeTab === "security_audit" ? "var(--primary)" : "transparent",
+                color: activeTab === "security_audit" ? "#fff" : "var(--text-muted)",
+                fontWeight: 600,
+                fontSize: 13,
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+              }}
+            >
+              🛡️ Platform Security Architecture
+            </button>
           </div>
-        )}
-
-        {/* Section 2: Data Privacy & Sharing */}
-        {activeSection === "privacy" && (
-          <div className="card" style={{ padding: 36, maxWidth: 850, margin: "0 auto" }}>
-            <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 12 }}>How We Collect & Protect Your Data</h2>
-            <p className="text-muted" style={{ lineHeight: 1.7, marginBottom: 24 }}>
-              ServeBook operates on a strict **need-to-know data isolation policy**. We do not sell, rent, or trade your personal 
-              information to data brokers or third-party advertisers.
-            </p>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-              <div style={{ background: "var(--surface2)", padding: 20, borderRadius: 12, border: "1px solid var(--border)" }}>
-                <h4 style={{ fontSize: 16, fontWeight: 700, marginBottom: 6, display: "flex", alignItems: "center", gap: 8 }}>
-                  <FiCheckCircle color="#10b981" /> 1. Doorstep Address Isolation
-                </h4>
-                <p className="text-muted text-sm" style={{ lineHeight: 1.6 }}>
-                  Your service street address and phone number are <strong>only shared with the specific verified vendor</strong> who accepted your booking. 
-                  Other vendors and external parties have zero access to your address details.
-                </p>
-              </div>
-
-              <div style={{ background: "var(--surface2)", padding: 20, borderRadius: 12, border: "1px solid var(--border)" }}>
-                <h4 style={{ fontSize: 16, fontWeight: 700, marginBottom: 6, display: "flex", alignItems: "center", gap: 8 }}>
-                  <FiCheckCircle color="#10b981" /> 2. Vendor Business Verification
-                </h4>
-                <p className="text-muted text-sm" style={{ lineHeight: 1.6 }}>
-                  Vendor listings require admin review and validation before going public. Identity and contact details are vetted to 
-                  ensure customer trust and on-site safety.
-                </p>
-              </div>
-
-              <div style={{ background: "var(--surface2)", padding: 20, borderRadius: 12, border: "1px solid var(--border)" }}>
-                <h4 style={{ fontSize: 16, fontWeight: 700, marginBottom: 6, display: "flex", alignItems: "center", gap: 8 }}>
-                  <FiCheckCircle color="#10b981" /> 3. Data Retention & Anonymization
-                </h4>
-                <p className="text-muted text-sm" style={{ lineHeight: 1.6 }}>
-                  Account details remain active as long as your profile is open. Upon account deletion request, personal identifying 
-                  information is permanently removed while historical transactional logs are cryptographically anonymized.
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Section 3: Authentication & RBAC */}
-        {activeSection === "auth" && (
-          <div className="card" style={{ padding: 36, maxWidth: 850, margin: "0 auto" }}>
-            <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 12 }}>Authentication & Role-Based Access Control</h2>
-            <p className="text-muted" style={{ lineHeight: 1.7, marginBottom: 24 }}>
-              ServeBook enforces a 3-tier Role-Based Access Control (RBAC) model. Unauthorized users are blocked at both router 
-              and database controller layers.
-            </p>
-
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16, marginBottom: 24 }}>
-              <div style={{ padding: 20, borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface2)" }}>
-                <span className="badge badge-info" style={{ marginBottom: 10 }}>Role: Customer</span>
-                <p className="text-muted text-xs" style={{ lineHeight: 1.6 }}>
-                  Can view verified services, book time slots, manage own bookings, write reviews, and edit personal profile.
-                </p>
-              </div>
-              <div style={{ padding: 20, borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface2)" }}>
-                <span className="badge badge-purple" style={{ marginBottom: 10 }}>Role: Vendor</span>
-                <p className="text-muted text-xs" style={{ lineHeight: 1.6 }}>
-                  Can publish service offerings, generate slot schedules, accept/complete customer bookings, and track service revenues.
-                </p>
-              </div>
-              <div style={{ padding: 20, borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface2)" }}>
-                <span className="badge badge-success" style={{ marginBottom: 10 }}>Role: Administrator</span>
-                <p className="text-muted text-xs" style={{ lineHeight: 1.6 }}>
-                  Has oversight across platform catalog, verifies new service listings, manages user statuses, and reviews platform analytics.
-                </p>
-              </div>
-            </div>
-
-            <div style={{ padding: 18, background: "rgba(99, 102, 241, 0.08)", borderRadius: 10, border: "1px solid rgba(99, 102, 241, 0.2)" }}>
-              <div className="font-semibold text-sm" style={{ color: "var(--primary)" }}>🔒 Password Strength & Sanitization</div>
-              <p className="text-muted text-xs" style={{ marginTop: 4, lineHeight: 1.6 }}>
-                Registration enforces strict password complexity checks on client and server. Passwords with low entropy are flagged in real time via our dynamic strength meter.
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* Section 4: Payments */}
-        {activeSection === "payments" && (
-          <div className="card" style={{ padding: 36, maxWidth: 850, margin: "0 auto" }}>
-            <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 12 }}>Payment Integrity & Financial Security</h2>
-            <p className="text-muted" style={{ lineHeight: 1.7, marginBottom: 24 }}>
-              ServeBook incorporates state-machine booking workflows and tamper-proof price reconciliation.
-            </p>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-              <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
-                <div style={{ padding: 10, borderRadius: 8, background: "rgba(16, 185, 129, 0.15)", color: "#10b981" }}>
-                  <FiCheckCircle size={20} />
-                </div>
-                <div>
-                  <h4 style={{ fontSize: 16, fontWeight: 700 }}>Zero Card Data Stored on Platform</h4>
-                  <p className="text-muted text-sm" style={{ marginTop: 4, lineHeight: 1.6 }}>
-                    Debit cards, credit cards, UPI PINs, and banking credentials are never processed or retained on ServeBook servers, adhering strictly to PCI-DSS standards.
-                  </p>
-                </div>
-              </div>
-
-              <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
-                <div style={{ padding: 10, borderRadius: 8, background: "rgba(99, 102, 241, 0.15)", color: "var(--primary)" }}>
-                  <FiCheckCircle size={20} />
-                </div>
-                <div>
-                  <h4 style={{ fontSize: 16, fontWeight: 700 }}>Atomic Slot Locking</h4>
-                  <p className="text-muted text-sm" style={{ marginTop: 4, lineHeight: 1.6 }}>
-                    Double bookings are impossible. Our booking engine locks the specific calendar slot atomically during checkout to prevent concurrent conflict conditions.
-                  </p>
-                </div>
-              </div>
-
-              <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
-                <div style={{ padding: 10, borderRadius: 8, background: "rgba(245, 158, 11, 0.15)", color: "#f59e0b" }}>
-                  <FiCheckCircle size={20} />
-                </div>
-                <div>
-                  <h4 style={{ fontSize: 16, fontWeight: 700 }}>100% Service Guarantee & Refunds</h4>
-                  <p className="text-muted text-sm" style={{ marginTop: 4, lineHeight: 1.6 }}>
-                    In the rare event of service cancellation by a vendor, bookings are marked cancelled and customer refunds are processed according to our Fair Cancellation Policy.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Section 5: Your Rights */}
-        {activeSection === "rights" && (
-          <div className="card" style={{ padding: 36, maxWidth: 850, margin: "0 auto" }}>
-            <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 12 }}>Your Privacy Rights & Controls</h2>
-            <p className="text-muted" style={{ lineHeight: 1.7, marginBottom: 24 }}>
-              You maintain complete authority over your personal identity and booking history.
-            </p>
-
-            <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 14 }}>
-              {[
-                { title: "Right to Access", desc: "View all your past bookings, reviews, and profile data in your Customer Dashboard at any time." },
-                { title: "Right to Rectification", desc: "Update your delivery address, phone number, and account credentials directly from profile settings." },
-                { title: "Right to Erasure (Forget Me)", desc: "Request complete permanent deletion of your profile and data by emailing privacy@servebook.in." },
-                { title: "Opt-Out of Promotional Alerts", desc: "Easily manage email and SMS alert preferences with one-click toggles." },
-              ].map((item, idx) => (
-                <li key={idx} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                  <MdVerified color="var(--primary)" size={20} style={{ marginTop: 2, flexShrink: 0 }} />
-                  <div>
-                    <strong style={{ fontSize: 15 }}>{item.title}:</strong>
-                    <span className="text-muted text-sm" style={{ marginLeft: 6 }}>{item.desc}</span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-
-            <div style={{ marginTop: 32, borderTop: "1px solid var(--border)", paddingTop: 20, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
-              <span className="text-muted text-sm">Have security questions or need compliance assistance?</span>
-              <a href="mailto:privacy@servebook.in" className="btn btn-outline btn-sm">
-                📧 Contact Data Protection Officer
-              </a>
-            </div>
-          </div>
-        )}
-
-        {/* Bottom Trust Badge */}
-        <div style={{ 
-          marginTop: 60, 
-          padding: 24, 
-          borderRadius: 14, 
-          border: "1px solid var(--border)", 
-          background: "var(--surface)", 
-          display: "flex", 
-          alignItems: "center", 
-          justifyContent: "space-between", 
-          flexWrap: "wrap", 
-          gap: 16 
-        }}>
-          <div>
-            <div className="font-semibold" style={{ fontSize: 16 }}>Ready to book verified doorstep services?</div>
-            <p className="text-muted text-xs" style={{ marginTop: 2 }}>
-              All vendors undergo strict verification before onboarding.
-            </p>
-          </div>
-          <Link to="/services" className="btn btn-primary">
-            Explore Verified Services
-          </Link>
         </div>
       </div>
+
+      {/* Consumer Privacy Policy Tab (Urban Company Standard) */}
+      {activeTab === "consumer" && (
+        <div className="container" style={{ padding: "48px 16px 80px" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "260px 1fr",
+              gap: 40,
+              alignItems: "flex-start",
+            }}
+          >
+            {/* Sticky Table of Contents */}
+            <div
+              style={{
+                position: "sticky",
+                top: 90,
+                background: "var(--surface)",
+                border: "1px solid var(--border)",
+                borderRadius: "var(--radius-lg)",
+                padding: "20px 16px",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 11,
+                  fontWeight: 700,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.06em",
+                  color: "var(--text-muted)",
+                  marginBottom: 12,
+                }}
+              >
+                Policy Sections
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                {legalSections.map((sec) => (
+                  <a
+                    key={sec.id}
+                    href={`#${sec.id}`}
+                    onClick={() => setActiveSection(sec.id)}
+                    style={{
+                      padding: "8px 12px",
+                      borderRadius: 6,
+                      fontSize: 12.5,
+                      textDecoration: "none",
+                      color: activeSection === sec.id ? "var(--primary)" : "var(--text-muted)",
+                      background: activeSection === sec.id ? "rgba(99, 102, 241, 0.1)" : "transparent",
+                      fontWeight: activeSection === sec.id ? 700 : 500,
+                      transition: "all 0.2s ease",
+                    }}
+                  >
+                    {sec.title}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Content Body */}
+            <div style={{ maxWidth: 800, lineHeight: 1.8 }}>
+              {/* Section 1 */}
+              <section id="collection" style={{ marginBottom: 44 }}>
+                <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, color: "#fff" }}>
+                  1. Information We Collect
+                </h2>
+                <p className="text-muted" style={{ marginBottom: 14 }}>
+                  When you access or book services through ServeBook, we collect information required to fulfill your on-demand service appointments, ensure customer safety, and maintain high delivery standards:
+                </p>
+                <div style={{ display: "grid", gap: 12, marginBottom: 16 }}>
+                  <div style={{ padding: "14px 18px", background: "var(--surface2)", borderRadius: 8, border: "1px solid var(--border)" }}>
+                    <strong style={{ color: "#fff" }}>Account & Identity Data:</strong>
+                    <span className="text-muted text-sm" style={{ display: "block", marginTop: 4 }}>
+                      Your full name, verified email address, phone number, and encrypted password credentials. For service partners (vendors), we additionally collect government ID, business name, and police KYC verification.
+                    </span>
+                  </div>
+                  <div style={{ padding: "14px 18px", background: "var(--surface2)", borderRadius: 8, border: "1px solid var(--border)" }}>
+                    <strong style={{ color: "#fff" }}>Service Address & Location Data:</strong>
+                    <span className="text-muted text-sm" style={{ display: "block", marginTop: 4 }}>
+                      Your house/flat number, street name, landmark, city, and 6-digit postal code where the technician or salon professional will deliver the doorstep service.
+                    </span>
+                  </div>
+                  <div style={{ padding: "14px 18px", background: "var(--surface2)", borderRadius: 8, border: "1px solid var(--border)" }}>
+                    <strong style={{ color: "#fff" }}>Booking & Appointment History:</strong>
+                    <span className="text-muted text-sm" style={{ display: "block", marginTop: 4 }}>
+                      Selected date, time slot, service category, notes for the professional, and booking status history.
+                    </span>
+                  </div>
+                </div>
+              </section>
+
+              {/* Section 2 */}
+              <section id="usage" style={{ marginBottom: 44 }}>
+                <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, color: "#fff" }}>
+                  2. How We Use Your Information
+                </h2>
+                <p className="text-muted" style={{ marginBottom: 14 }}>
+                  ServeBook processes your personal data strictly for lawful, performance-of-contract purposes:
+                </p>
+                <ul style={{ paddingLeft: 20, color: "var(--text-muted)", display: "flex", flexDirection: "column", gap: 8 }}>
+                  <li>Connecting you with qualified, background-checked service partners matching your requested slot.</li>
+                  <li>Sending real-time appointment updates, vendor dispatch alerts, and digital tax receipts via SMS, Email, and WebSockets.</li>
+                  <li>Facilitating quality control, customer disputes, verified ratings, and service guarantees.</li>
+                  <li>Detecting fraudulent bookings, automated bot abuse, or malicious activity.</li>
+                </ul>
+              </section>
+
+              {/* Section 3 */}
+              <section id="payment" style={{ marginBottom: 44 }}>
+                <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, color: "#fff" }}>
+                  3. Payments & Financial Data Protection
+                </h2>
+                <div style={{ padding: "16px 20px", background: "rgba(16, 185, 129, 0.08)", border: "1px solid rgba(16, 185, 129, 0.2)", borderRadius: 8, marginBottom: 16 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#34d399", fontWeight: 700, marginBottom: 6 }}>
+                    <FiCheckCircle size={18} /> Zero Storage of Financial Credentials
+                  </div>
+                  <p className="text-muted text-sm" style={{ margin: 0 }}>
+                    ServeBook <strong>NEVER</strong> stores your UPI PINs, credit/debit card numbers, CVVs, or net banking passwords on our servers. All transactions are securely processed through RBI-approved, PCI-DSS Level-1 certified payment gateways.
+                  </p>
+                </div>
+                <p className="text-muted">
+                  We support instant payments via UPI (PhonePe, Google Pay, Paytm, BHIM), RuPay, Visa, Mastercard, and Cash on Delivery. Invoices and receipts generated through the platform comply with standard Indian GST accounting regulations.
+                </p>
+              </section>
+
+              {/* Section 4 */}
+              <section id="sharing" style={{ marginBottom: 44 }}>
+                <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, color: "#fff" }}>
+                  4. Sharing Information with Service Partners
+                </h2>
+                <p className="text-muted" style={{ marginBottom: 12 }}>
+                  To fulfill your service request, we share only necessary contact and location details with the specifically assigned service professional:
+                </p>
+                <ul style={{ paddingLeft: 20, color: "var(--text-muted)", display: "flex", flexDirection: "column", gap: 8 }}>
+                  <li>The professional receives your delivery address and contact phone number solely to travel to your premises and perform the service.</li>
+                  <li>Service partners are contractually bound by confidentiality and code of conduct agreements prohibiting any unauthorized contact or secondary marketing.</li>
+                  <li><strong>We NEVER sell, rent, or trade your personal data to telemarketers or third-party advertisers.</strong></li>
+                </ul>
+              </section>
+
+              {/* Section 5 */}
+              <section id="retention" style={{ marginBottom: 44 }}>
+                <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, color: "#fff" }}>
+                  5. Data Retention & Account Erasure
+                </h2>
+                <p className="text-muted">
+                  We retain booking records and tax invoices for the statutory period required by Indian tax laws (6 years). If you wish to delete your account, you can request full erasure of your profile credentials by contacting our support desk. Upon verification, your account credentials will be permanently purged within 30 days.
+                </p>
+              </section>
+
+              {/* Section 6 */}
+              <section id="rights" style={{ marginBottom: 44 }}>
+                <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, color: "#fff" }}>
+                  6. Your Rights Under the DPDP Act 2023
+                </h2>
+                <p className="text-muted" style={{ marginBottom: 12 }}>
+                  Under the Digital Personal Data Protection Act of India, you hold fundamental rights as a Data Principal:
+                </p>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                  <div style={{ padding: 12, background: "var(--surface2)", borderRadius: 6 }}>
+                    <strong style={{ color: "#fff", fontSize: 13 }}>Right to Access:</strong>
+                    <div className="text-muted text-xs">Inspect all personal data and active bookings stored in your profile.</div>
+                  </div>
+                  <div style={{ padding: 12, background: "var(--surface2)", borderRadius: 6 }}>
+                    <strong style={{ color: "#fff", fontSize: 13 }}>Right to Correction:</strong>
+                    <div className="text-muted text-xs">Update inaccurate phone numbers, names, or addresses at any time.</div>
+                  </div>
+                  <div style={{ padding: 12, background: "var(--surface2)", borderRadius: 6 }}>
+                    <strong style={{ color: "#fff", fontSize: 13 }}>Right to Grievance Redressal:</strong>
+                    <div className="text-muted text-xs">Direct escalation to our designated statutory Grievance Officer.</div>
+                  </div>
+                  <div style={{ padding: 12, background: "var(--surface2)", borderRadius: 6 }}>
+                    <strong style={{ color: "#fff", fontSize: 13 }}>Right to Nominate:</strong>
+                    <div className="text-muted text-xs">Designate an authorized representative in case of incapacity.</div>
+                  </div>
+                </div>
+              </section>
+
+              {/* Section 7 */}
+              <section id="cookies" style={{ marginBottom: 44 }}>
+                <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, color: "#fff" }}>
+                  7. Cookies & Session Management
+                </h2>
+                <p className="text-muted">
+                  We use secure, HTTP-only authentication tokens for session verification. We do not use intrusive cross-site tracking cookies. You can manage cookie preferences directly through your browser settings.
+                </p>
+              </section>
+
+              {/* Section 8 */}
+              <section id="refund" style={{ marginBottom: 44 }}>
+                <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, color: "#fff" }}>
+                  8. Refund & Cancellation Terms
+                </h2>
+                <p className="text-muted" style={{ marginBottom: 12 }}>
+                  Customers can cancel bookings without penalty up to 2 hours before the scheduled time slot:
+                </p>
+                <ul style={{ paddingLeft: 20, color: "var(--text-muted)", display: "flex", flexDirection: "column", gap: 8 }}>
+                  <li>Cancellations before 2 hours are eligible for 100% full refund to original payment source (UPI/Card).</li>
+                  <li>Refunds are automatically processed within 3-5 business days.</li>
+                  <li>If a service partner fails to arrive or delivers substandard work, our 100% Service Guarantee covers free re-service or immediate full refund.</li>
+                </ul>
+              </section>
+
+              {/* Section 9 */}
+              <section id="grievance" style={{ marginBottom: 44 }}>
+                <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, color: "#fff" }}>
+                  9. Grievance Redressal Officer (IT Act 2000 Compliance)
+                </h2>
+                <p className="text-muted" style={{ marginBottom: 16 }}>
+                  In accordance with Information Technology Act, 2000 and Rules made thereunder, the name and contact details of the Grievance Officer are published below:
+                </p>
+
+                <div
+                  style={{
+                    padding: 24,
+                    background: "var(--surface2)",
+                    border: "1px solid var(--border)",
+                    borderRadius: 12,
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 20,
+                  }}
+                >
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: 16, color: "#fff" }}>Mr. Rohit Verma</div>
+                    <div className="text-muted text-sm">Grievance Redressal & Data Protection Officer</div>
+                    <div className="text-muted text-sm" style={{ marginTop: 8 }}>
+                      ServeBook Technologies Private Limited
+                    </div>
+                    <div className="text-muted text-xs" style={{ marginTop: 2 }}>
+                      BKC Avenue, Bandra East, Mumbai, Maharashtra 400051
+                    </div>
+                  </div>
+
+                  <div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, marginBottom: 6 }}>
+                      <FiMail color="var(--primary)" /> <strong>Email:</strong> grievance@servebook.in
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, marginBottom: 6 }}>
+                      <FiPhone color="var(--primary)" /> <strong>Phone:</strong> 022-6890-4100
+                    </div>
+                    <div className="text-muted text-xs" style={{ marginTop: 8 }}>
+                      Resolution Turnaround: 24 to 48 working hours.
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Security Architecture Audit Tab (For Technical Recruiters & Audits) */}
+      {activeTab === "security_audit" && (
+        <div className="container" style={{ padding: "48px 16px 80px" }}>
+          <div style={{ textAlign: "center", maxWidth: 700, margin: "0 auto 40px" }}>
+            <h2 style={{ fontSize: 26, fontWeight: 800, marginBottom: 10 }}>
+              Full-Stack Technical Security Architecture
+            </h2>
+            <p className="text-muted text-sm">
+              Engineered with defense-in-depth principles across frontend network, backend API routing, database, and encryption layers.
+            </p>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gap: 20,
+              marginBottom: 40,
+            }}
+          >
+            {securityFeatures.map((feat, i) => (
+              <div
+                key={i}
+                className="card"
+                style={{
+                  padding: 24,
+                  background: "var(--surface)",
+                  border: "1px solid var(--border)",
+                  borderRadius: "var(--radius-lg)",
+                }}
+              >
+                <div style={{ marginBottom: 12 }}>{feat.icon}</div>
+                <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8 }}>{feat.title}</h3>
+                <p className="text-muted text-sm" style={{ margin: 0, lineHeight: 1.6 }}>{feat.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Defense in depth layers */}
+          <div
+            className="card"
+            style={{
+              padding: 32,
+              background: "var(--surface2)",
+              border: "1px solid var(--border)",
+              borderRadius: "var(--radius-lg)",
+            }}
+          >
+            <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 20, display: "flex", alignItems: "center", gap: 10 }}>
+              <FiLayers color="var(--primary)" /> Defense-in-Depth Layer Breakdown
+            </h3>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 20 }}>
+              <div style={{ borderLeft: "3px solid var(--primary)", paddingLeft: 14 }}>
+                <strong style={{ fontSize: 14, color: "#fff" }}>1. Application & Input Layer</strong>
+                <p className="text-muted text-xs" style={{ marginTop: 4 }}>
+                  Real-time frontend validation, sanitized inputs, and express-validator middleware preventing malformed payloads.
+                </p>
+              </div>
+              <div style={{ borderLeft: "3px solid #10b981", paddingLeft: 14 }}>
+                <strong style={{ fontSize: 14, color: "#fff" }}>2. Session & Token Layer</strong>
+                <p className="text-muted text-xs" style={{ marginTop: 4 }}>
+                  Dual-token JWT architecture with strict RBAC access guards and cryptographic token validation.
+                </p>
+              </div>
+              <div style={{ borderLeft: "3px solid #f59e0b", paddingLeft: 14 }}>
+                <strong style={{ fontSize: 14, color: "#fff" }}>3. Database & Storage Layer</strong>
+                <p className="text-muted text-xs" style={{ marginTop: 4 }}>
+                  MongoDB Atlas replica cluster with IP access controls, TLS 1.3 in-transit, and AES-256 at-rest encryption.
+                </p>
+              </div>
+              <div style={{ borderLeft: "3px solid #ec4899", paddingLeft: 14 }}>
+                <strong style={{ fontSize: 14, color: "#fff" }}>4. Security Headers (Helmet)</strong>
+                <p className="text-muted text-xs" style={{ marginTop: 4 }}>
+                  Clickjacking defense, Content-Security-Policy, XSS filters, and Strict-Transport-Security enforced.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>
