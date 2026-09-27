@@ -50,14 +50,14 @@ app.use(morgan("dev"));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Routes
-app.use("/api/auth",          require("./src/routes/auth.routes"));
-app.use("/api/services",      require("./src/routes/service.routes"));
-app.use("/api/bookings",      require("./src/routes/booking.routes"));
-app.use("/api/reviews",       require("./src/routes/review.routes"));
-app.use("/api/vendor",        require("./src/routes/vendor.routes"));
-app.use("/api/admin",         require("./src/routes/admin.routes"));
+app.use("/api/auth", require("./src/routes/auth.routes"));
+app.use("/api/services", require("./src/routes/service.routes"));
+app.use("/api/bookings", require("./src/routes/booking.routes"));
+app.use("/api/reviews", require("./src/routes/review.routes"));
+app.use("/api/vendor", require("./src/routes/vendor.routes"));
+app.use("/api/admin", require("./src/routes/admin.routes"));
 app.use("/api/notifications", require("./src/routes/notification.routes"));
-app.use("/api/upload",        require("./src/routes/upload.routes"));
+app.use("/api/upload", require("./src/routes/upload.routes"));
 
 // Root endpoint
 app.get("/", (req, res) => res.json({

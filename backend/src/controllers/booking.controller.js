@@ -65,10 +65,15 @@ exports.createBooking = async (req, res) => {
 
     const io = req.app.get("io");
     await sendNotification(io, service.vendor, {
-      title: "New Booking Received! ??",
-      message: `${req.user.name} booked ${service.title} for ${slotDate}`,
+      title: "New Booking Received! 📋",
+      message: `${req.user.name} booked ${service.title} for ${sDate || slotDate}`,
       type: "booking", data: { bookingId: booking._id }
     });
+
+    if (io) {
+      io.to(service.vendor.toString()).emit("booking_created", populated);
+      io.emit("new_booking_created", populated);
+    }
 
     res.status(201).json({ booking: populated, message: "Booking created successfully!" });
   } catch (err) { res.status(500).json({ message: err.message }); }
@@ -124,7 +129,23 @@ exports.updateBookingStatus = async (req, res) => {
       type: "booking", data: { bookingId: booking._id }
     });
 
-    res.json({ booking, message: `Booking ${status}` });
+    const populatedBooking = await Booking.findById(booking._id)
+      .populate("service", "title category price images duration")
+      .populate("vendor", "name avatar phone businessName")
+      .populate("customer", "name avatar phone email");
+
+    if (io) {
+      const payload = {
+        bookingId: booking._id,
+        status: booking.status,
+        booking: populatedBooking || booking
+      };
+      if (booking.customer) io.to(booking.customer.toString()).emit("booking_updated", payload);
+      if (booking.vendor) io.to(booking.vendor.toString()).emit("booking_updated", payload);
+      io.emit("booking_status_changed", payload);
+    }
+
+    res.json({ booking: populatedBooking || booking, message: `Booking ${status}` });
   } catch (err) { res.status(500).json({ message: err.message }); }
 };
 

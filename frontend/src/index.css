@@ -388,6 +388,157 @@ input,textarea,select{font-family:inherit;}
 .booking-actions{display:flex;gap:8px;margin-top:12px;}
 .booking-notes{font-size:13px;color:var(--text-muted);}
 
+/* ===== BOOKING STEPPER / PROGRESS TRACKER ===== */
+.booking-stepper-wrapper {
+  margin: 14px 0 10px 0;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-md);
+  position: relative;
+}
+
+.booking-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+}
+
+.stepper-progress-track {
+  position: absolute;
+  top: 17px;
+  left: 20px;
+  right: 20px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  z-index: 1;
+}
+
+.stepper-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981 0%, #6366f1 60%, #8b5cf6 100%);
+  border-radius: 4px;
+  transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.6);
+}
+
+.stepper-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  cursor: default;
+  transition: transform 0.2s ease;
+}
+
+.stepper-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface2);
+  border: 2px solid var(--border);
+  color: var(--text-muted);
+  transition: all 0.35s ease;
+  position: relative;
+}
+
+.stepper-step.completed .stepper-circle {
+  background: linear-gradient(135deg, #10b981, #059669);
+  border-color: #10b981;
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+}
+
+.stepper-step.active .stepper-circle {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  border-color: #a5b4fc;
+  color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25), 0 0 16px rgba(99, 102, 241, 0.55);
+}
+
+.stepper-ping {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid #818cf8;
+  animation: stepperPing 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes stepperPing {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  75%, 100% { transform: scale(1.4); opacity: 0; }
+}
+
+.stepper-label {
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-align: center;
+  letter-spacing: 0.02em;
+  transition: color 0.3s ease;
+  white-space: nowrap;
+}
+
+.stepper-step.active .stepper-label {
+  color: #c7d2fe;
+  font-weight: 700;
+}
+
+.stepper-step.completed .stepper-label {
+  color: #6ee7b7;
+}
+
+.stepper-cancelled-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 8px 0;
+  padding: 10px 14px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: var(--radius-md);
+  color: #f87171;
+  font-size: 13px;
+}
+
+.vendor-action-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+@media (max-width: 640px) {
+  .stepper-circle {
+    width: 28px;
+    height: 28px;
+  }
+  .stepper-circle svg {
+    width: 12px;
+    height: 12px;
+  }
+  .stepper-label {
+    font-size: 9.5px;
+  }
+  .stepper-progress-track {
+    top: 14px;
+    left: 14px;
+    right: 14px;
+  }
+}
+
 /* ===== STATUS FILTER TABS ===== */
 .status-filter-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;}
 .status-filter-tab{padding:8px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;color:var(--text-muted);transition:var(--transition);text-transform:capitalize;}
