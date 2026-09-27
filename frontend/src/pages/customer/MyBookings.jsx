@@ -272,6 +272,12 @@ export default function MyBookings() {
   );
 }
 
+const formatStatusLabel = (s) => {
+  if (!s) return "";
+  if (s.toLowerCase() === "in_progress") return "In Progress";
+  return s.charAt(0).toUpperCase() + s.slice(1).replace(/_/g, " ");
+};
+
 function BookingCard({ booking, onCancel, onReview }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -304,7 +310,7 @@ function BookingCard({ booking, onCancel, onReview }) {
           </div>
           <div className="booking-card-amount">₹{booking.totalAmount?.toLocaleString()}</div>
           <span className={`badge badge-${STATUS_COLORS[booking.status] || "info"}`}>
-            {booking.status.replace("_", " ")}
+            {formatStatusLabel(booking.status)}
           </span>
           <button
             type="button"
@@ -390,7 +396,7 @@ function BookingCard({ booking, onCancel, onReview }) {
                 <div key={i} className="status-history-item">
                   <FiCheckCircle size={14} color="var(--success)" />
                   <span className="text-sm text-muted">
-                    <strong style={{ color: "var(--text)" }}>{h.status.replace("_", " ")}</strong>{" "}
+                    <strong style={{ color: "var(--text)" }}>{formatStatusLabel(h.status)}</strong>{" "}
                     {h.note && `— ${h.note}`}
                   </span>
                 </div>

@@ -123,9 +123,19 @@ exports.updateBookingStatus = async (req, res) => {
 
     const io = req.app.get("io");
     const notifyUser = req.user.role === "vendor" ? booking.customer : booking.vendor;
+
+    const displayStatus = {
+      pending: "Pending",
+      confirmed: "Confirmed",
+      in_progress: "In Progress",
+      completed: "Completed",
+      cancelled: "Cancelled",
+      rejected: "Rejected"
+    }[status] || status.replace(/_/g, " ");
+
     await sendNotification(io, notifyUser, {
-      title: `Booking ${status.charAt(0).toUpperCase() + status.slice(1)}`,
-      message: `Your booking status updated to ${status}`,
+      title: `Booking ${displayStatus}`,
+      message: `Your booking status updated to ${displayStatus}`,
       type: "booking", data: { bookingId: booking._id }
     });
 

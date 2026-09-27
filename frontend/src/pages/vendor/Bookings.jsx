@@ -21,6 +21,12 @@ const VENDOR_ACTIONS = {
   in_progress: ["completed"],
 };
 
+const formatStatusLabel = (s) => {
+  if (!s) return "";
+  if (s.toLowerCase() === "in_progress") return "In Progress";
+  return s.charAt(0).toUpperCase() + s.slice(1).replace(/_/g, " ");
+};
+
 export default function VendorBookings() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -215,7 +221,7 @@ export default function VendorBookings() {
 
                     <div className="booking-card-meta">
                       <span className={`badge badge-${STATUS_COLORS[booking.status] || "info"}`}>
-                        {booking.status.replace("_", " ")}
+                        {formatStatusLabel(booking.status)}
                       </span>
                       <div className="font-semibold text-base">
                         ₹{booking.totalAmount?.toLocaleString()}

@@ -103,8 +103,12 @@ export default function Navbar() {
                     ) : (
                       notifications.slice(0, 8).map((n) => (
                         <div key={n._id} className={`notif-item ${!n.isRead ? "notif-unread" : ""}`}>
-                          <div className="notif-title">{n.title}</div>
-                          <div className="notif-msg text-muted text-sm">{n.message}</div>
+                          <div className="notif-title">
+                            {n.title?.replace(/in_progress/gi, "In Progress").replace(/_/g, " ")}
+                          </div>
+                          <div className="notif-msg text-muted text-sm">
+                            {n.message?.replace(/in_progress/gi, "In Progress").replace(/_/g, " ")}
+                          </div>
                         </div>
                       ))
                     )}
