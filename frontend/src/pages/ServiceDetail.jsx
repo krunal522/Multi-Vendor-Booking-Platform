@@ -104,12 +104,23 @@ export default function ServiceDetail() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const getPaymentSubMethod = () => {
+    if (onlineCategory === "upi") {
+      if (onlineSubMethod === "phonepe") return "PhonePe UPI";
+      if (onlineSubMethod === "gpay") return "Google Pay UPI";
+      if (onlineSubMethod === "paytm") return "Paytm UPI";
+      if (onlineSubMethod === "upi_id") return customUpi ? `UPI: ${customUpi}` : "Custom UPI ID";
+    }
+    if (onlineCategory === "card") return "Debit/Credit Card";
+    if (onlineCategory === "netbanking") return `Net Banking - ${selectedBank}`;
+    return "Online Payment";
+  };
+
   const executeBooking = async (method) => {
     setBookingLoading(true);
     try {
-      const selectedPaymentLabel = method === "online"
-        ? (onlineCategory === "upi" ? `${onlineSubMethod.toUpperCase()} UPI` : onlineCategory === "card" ? "Debit/Credit Card" : selectedBank)
-        : "cash";
+      const baseMethod = method === "cash" ? "cash" : "online";
+      const subMethod = method === "cash" ? "" : getPaymentSubMethod();
 
       const { data } = await api.post("/bookings", {
         service: service._id,
@@ -124,7 +135,8 @@ export default function ServiceDetail() {
         },
         address,
         customerNotes: notes,
-        paymentMethod: selectedPaymentLabel,
+        paymentMethod: baseMethod,
+        paymentSubMethod: subMethod,
       });
       toast.success("🎉 Booking & Payment confirmed successfully!");
       navigate("/customer/bookings");

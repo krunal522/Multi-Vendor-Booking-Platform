@@ -20,6 +20,7 @@ const bookingSchema = new mongoose.Schema({
   vendorEarnings: { type: Number, default: 0 },
   payment: {
     method:    { type: String, enum: ["online","cash"], default: "online" },
+    subMethod: { type: String, default: "" }, // e.g. PhonePe UPI, HDFC Bank, Card
     status:    { type: String, enum: ["pending","paid","refunded","failed"], default: "pending" },
     razorpayOrderId:  String,
     razorpayPaymentId: String,

@@ -769,3 +769,163 @@ input,textarea,select{font-family:inherit;}
   letter-spacing: 0.04em;
 }
 
+/* ===== PAYMENT OPTIONS (Online Payment Selector) ===== */
+.payment-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 8px;
+}
+.payment-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 10px;
+  border-radius: var(--radius);
+  border: 2px solid var(--border2);
+  background: var(--surface2);
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.payment-option:hover {
+  border-color: var(--primary);
+  color: var(--text);
+  background: rgba(99,102,241,0.08);
+}
+.payment-option-active {
+  border-color: var(--primary) !important;
+  background: rgba(99,102,241,0.15) !important;
+  color: var(--primary) !important;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
+}
+
+/* ===== ONLINE SUB-METHOD SELECTOR ===== */
+.online-sub-methods {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  animation: fadeInSlide 0.25s ease;
+}
+@keyframes fadeInSlide {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Sub-method tabs (UPI / Cards / Net Banking) */
+.sub-method-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+.sub-method-tab {
+  flex: 1;
+  padding: 7px 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+}
+.sub-method-tab:hover {
+  background: var(--surface2);
+  color: var(--text);
+}
+.sub-method-tab.active {
+  background: rgba(99,102,241,0.18);
+  border-color: rgba(99,102,241,0.4);
+  color: var(--primary);
+}
+
+/* UPI App Grid (PhonePe, GPay, Paytm, UPI ID) */
+.upi-app-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.upi-app-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border2);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+.upi-app-btn:hover {
+  border-color: var(--primary);
+  background: rgba(99,102,241,0.08);
+}
+.upi-app-btn.active {
+  border-color: var(--primary);
+  background: rgba(99,102,241,0.18);
+  color: var(--primary);
+  font-weight: 700;
+  box-shadow: 0 0 0 2px rgba(99,102,241,0.2);
+}
+.upi-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Gateway / Confirmation Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  width: 100%;
+  max-width: 480px;
+  margin: 16px;
+  position: relative;
+  border: 1px solid var(--border2);
+  box-shadow: var(--shadow-lg);
+  animation: scaleIn 0.25s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ===== RESPONSIVE PAYMENT ===== */
+@media(max-width: 480px) {
+  .payment-options { grid-template-columns: 1fr; }
+  .upi-app-grid { grid-template-columns: 1fr 1fr; }
+  .sub-method-tabs { flex-wrap: wrap; }
+  .sub-method-tab { flex: 0 0 auto; font-size: 11px; }
+}
+
+

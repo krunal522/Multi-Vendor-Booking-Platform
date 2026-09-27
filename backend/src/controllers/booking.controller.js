@@ -13,7 +13,7 @@ exports.createBooking = async (req, res) => {
       serviceId, service: bodyService, 
       slotDate, slotStartTime, slotEndTime, 
       slot: bodySlot, 
-      address, customerNotes, paymentMethod 
+      address, customerNotes, paymentMethod, paymentSubMethod
     } = req.body;
 
     const sId = serviceId || bodyService;
@@ -54,7 +54,7 @@ exports.createBooking = async (req, res) => {
       vendorEarnings: service.price - platformFee,
       address, 
       customerNotes,
-      payment: { method: paymentMethod || "online" },
+      payment: { method: paymentMethod === "cash" ? "cash" : "online", subMethod: paymentSubMethod || "" },
       statusHistory: [{ status: "pending", changedBy: req.user._id }]
     });
 
