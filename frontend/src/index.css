@@ -702,34 +702,3 @@ input,textarea,select{font-family:inherit;}
   letter-spacing: 0.04em;
 }
 
-/* ===== PRINT STYLES FOR TAX INVOICE ===== */
-@media print {
-  body * {
-    visibility: hidden;
-  }
-  #printable-invoice, #printable-invoice * {
-    visibility: visible;
-  }
-  #printable-invoice {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    margin: 0;
-    padding: 24px !important;
-    background: #ffffff !important;
-    color: #111827 !important;
-  }
-  .no-print {
-    display: none !important;
-  }
-  .modal-overlay {
-    background: transparent !important;
-    position: static !important;
-  }
-  .invoice-modal {
-    box-shadow: none !important;
-    border: none !important;
-    background: transparent !important;
-  }
-}
