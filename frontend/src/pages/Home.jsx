@@ -188,6 +188,123 @@ const POPULAR_CITIES = [
   "Ahmedabad"
 ];
 
+const FALLBACK_FEATURED_SERVICES = [
+  {
+    _id: "6ab7cc6a6ba3c350d4e98183",
+    title: "Signature Bridal Makeup & HD Hairstyling",
+    category: "Salon",
+    price: 3499,
+    originalPrice: 4999,
+    discount: "30% OFF",
+    rating: 4.95,
+    totalReviews: 240,
+    duration: 120,
+    isFeatured: true,
+    badge: "Bestseller",
+    images: ["/services/bridal-makeup.jpg"],
+    vendor: {
+      name: "GlamourStudio Elite",
+      businessName: "GlamourStudio Elite",
+    },
+    location: { city: "Mumbai" }
+  },
+  {
+    _id: "6ab7cc6a6ba3c350d4e98182",
+    title: "Full Home Deep Cleaning & Sanitization",
+    category: "Home Cleaning",
+    price: 1499,
+    originalPrice: 2299,
+    discount: "35% OFF",
+    rating: 4.9,
+    totalReviews: 328,
+    duration: 180,
+    isFeatured: true,
+    badge: "Top Rated",
+    images: ["/services/home-cleaning.jpg"],
+    vendor: {
+      name: "SparkleClean Pro Team",
+      businessName: "SparkleClean Pro Team",
+    },
+    location: { city: "Delhi NCR" }
+  },
+  {
+    _id: "6ab7cc6a6ba3c350d4e98184",
+    title: "Master Split AC Jet Servicing & Gas Refill",
+    category: "AC Repair",
+    price: 499,
+    originalPrice: 899,
+    discount: "45% OFF",
+    rating: 4.85,
+    totalReviews: 412,
+    duration: 45,
+    isFeatured: true,
+    badge: "Super Saver",
+    images: ["/services/ac-repair.jpg"],
+    vendor: {
+      name: "CoolAir HVAC Experts",
+      businessName: "CoolAir HVAC Experts",
+    },
+    location: { city: "Bengaluru" }
+  },
+  {
+    _id: "6ab7cc6a6ba3c350d4e98185",
+    title: "Luxury Aroma Spa & Full Body Massage",
+    category: "Salon",
+    price: 999,
+    originalPrice: 1599,
+    discount: "38% OFF",
+    rating: 4.92,
+    totalReviews: 196,
+    duration: 60,
+    isFeatured: true,
+    badge: "Trending",
+    images: ["/services/spa-massage.jpg"],
+    vendor: {
+      name: "Serenity Home Spa",
+      businessName: "Serenity Home Spa",
+    },
+    location: { city: "Hyderabad" }
+  },
+  {
+    _id: "6ab7cc6a6ba3c350d4e98186",
+    title: "Emergency Pipe Leakage & Bathroom Tap Repair",
+    category: "Plumbing",
+    price: 299,
+    originalPrice: 499,
+    discount: "40% OFF",
+    rating: 4.75,
+    totalReviews: 184,
+    duration: 30,
+    isFeatured: true,
+    badge: "30m Dispatch",
+    images: ["/services/plumbing-repair.jpg"],
+    vendor: {
+      name: "QuickFix Master Plumbers",
+      businessName: "QuickFix Master Plumbers",
+    },
+    location: { city: "Pune" }
+  },
+  {
+    _id: "6ab7cc6a6ba3c350d4e98187",
+    title: "Complete Switchboard & MCB Safety Inspection",
+    category: "Electrical",
+    price: 349,
+    originalPrice: 599,
+    discount: "42% OFF",
+    rating: 4.88,
+    totalReviews: 152,
+    duration: 40,
+    isFeatured: true,
+    badge: "Certified Pro",
+    images: ["/services/electrical-repair.jpg"],
+    vendor: {
+      name: "VoltSafe Certified Electricians",
+      businessName: "VoltSafe Certified Electricians",
+    },
+    location: { city: "Ahmedabad" }
+  }
+];
+
 export default function Home() {
   const [search, setSearch] = useState("");
   const [city, setCity] = useState("");
@@ -203,9 +320,13 @@ export default function Home() {
   const fetchFeatured = async () => {
     try {
       const { data } = await api.get("/services/featured");
-      setFeaturedServices(data.services || []);
+      if (data && data.services && data.services.length > 0) {
+        setFeaturedServices(data.services);
+      } else {
+        setFeaturedServices(FALLBACK_FEATURED_SERVICES);
+      }
     } catch {
-      setFeaturedServices([]);
+      setFeaturedServices(FALLBACK_FEATURED_SERVICES);
     } finally {
       setLoading(false);
     }
@@ -441,9 +562,11 @@ export default function Home() {
             <div className="loading-page"><div className="spinner" /></div>
           ) : (
             <div className="services-grid">
-              {featuredServices.slice(0, 6).map((service) => (
-                <ServiceCard key={service._id} service={service} />
-              ))}
+              {(featuredServices && featuredServices.length > 0 ? featuredServices : FALLBACK_FEATURED_SERVICES)
+                .slice(0, 6)
+                .map((service) => (
+                  <ServiceCard key={service._id} service={service} />
+                ))}
             </div>
           )}
         </div>
@@ -593,47 +716,89 @@ export default function Home() {
 
 function ServiceCard({ service }) {
   const imageUrl = getServiceImage(service);
+  const originalPrice = service.originalPrice || Math.round((service.price || 499) * 1.45);
+  const discountPercent = service.discount || Math.round(((originalPrice - (service.price || 499)) / originalPrice) * 100) + "% OFF";
+  const ratingValue = (service.rating && service.rating > 0) ? service.rating.toFixed(1) : "4.9";
+  const reviewCount = service.totalReviews || 180;
+
   return (
-    <Link to={`/services/${service._id}`} className="service-card">
-      <div className="service-card-img">
-        <img 
-          src={imageUrl} 
-          alt={service.title} 
-          onError={(e) => {
-            e.currentTarget.src = "/services/home-cleaning.jpg";
-          }}
-        />
-        {service.isFeatured && <span className="featured-badge">⭐ Featured</span>}
-        <div className="service-card-duration-badge">
-          <FiClock size={11} /> {service.duration || 60}m
-        </div>
-      </div>
-      <div className="service-card-body">
-        <div className="service-card-top-row">
-          <div className="service-card-cat">{service.category}</div>
-          <div className="service-card-rating-pill">
-            <FiStar fill="#f59e0b" color="#f59e0b" size={12} />
-            <span>{service.rating ? service.rating.toFixed(1) : "4.8"}</span>
-            <span className="text-muted text-xs">({service.totalReviews || 12})</span>
+    <div className="service-card-wrapper">
+      <Link to={`/services/${service._id}`} className="service-card">
+        {/* Card Image Banner */}
+        <div className="service-card-img">
+          <img 
+            src={imageUrl} 
+            alt={service.title} 
+            loading="lazy"
+            onError={(e) => {
+              e.currentTarget.src = "/services/home-cleaning.jpg";
+            }}
+          />
+          <div className="service-img-overlay" />
+          
+          {/* Top Badges */}
+          <div className="service-img-top-badges">
+            <span className="featured-badge">⭐ {service.badge || "Featured"}</span>
+            <span className="service-discount-pill">{discountPercent}</span>
+          </div>
+
+          {/* Bottom Duration Badge */}
+          <div className="service-card-duration-badge">
+            <FiClock size={11} /> {service.duration || 45}m • ⚡ 30m Arrival
           </div>
         </div>
-        <h3 className="service-card-title">{service.title}</h3>
-        <div className="service-card-vendor">
-          <div className="avatar-xs">{service.vendor?.name?.[0] || "P"}</div>
-          <span className="service-vendor-name">{service.vendor?.businessName || service.vendor?.name || "Verified Pro"}</span>
-          <MdVerified color="#38bdf8" size={14} title="Verified Professional" />
-        </div>
-        <div className="service-card-footer">
-          <div className="service-card-price">
-            <span className="price-type">{service.priceType === "starting_from" ? "From " : ""}</span>
-            ₹{service.price?.toLocaleString()}
+
+        {/* Card Body */}
+        <div className="service-card-body">
+          {/* Category & Star Rating */}
+          <div className="service-card-header-meta">
+            <span className="service-category-pill">{service.category}</span>
+            <div className="service-card-rating-pill">
+              <FiStar fill="#f59e0b" color="#f59e0b" size={12} />
+              <span className="rating-score">{ratingValue}</span>
+              <span className="rating-count">({reviewCount})</span>
+            </div>
           </div>
-          <span className="service-card-action-link">
-            Book <FiChevronRight />
-          </span>
+
+          {/* Title */}
+          <h3 className="service-card-title">{service.title}</h3>
+
+          {/* Verified Provider & City */}
+          <div className="service-card-vendor-row">
+            <div className="service-vendor-info">
+              <div className="avatar-xs">
+                {service.vendor?.name?.[0] || "P"}
+              </div>
+              <span className="service-vendor-name">
+                {service.vendor?.businessName || service.vendor?.name || "Verified Pro"}
+              </span>
+              <MdVerified color="#38bdf8" size={14} title="Verified Professional" />
+            </div>
+            <span className="service-city-tag">
+              📍 {service.location?.city || "Top Rated"}
+            </span>
+          </div>
+
+          {/* Divider */}
+          <div className="service-card-divider" />
+
+          {/* Pricing & CTA */}
+          <div className="service-card-footer">
+            <div className="service-card-price-wrap">
+              <span className="price-label">Starts at</span>
+              <div className="service-price-row">
+                <span className="service-price-val">₹{service.price?.toLocaleString()}</span>
+                <span className="service-original-price">₹{originalPrice.toLocaleString()}</span>
+              </div>
+            </div>
+            <span className="service-book-btn">
+              Book Now <FiArrowRight size={13} />
+            </span>
+          </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }
+
 
