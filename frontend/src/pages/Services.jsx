@@ -143,19 +143,21 @@ export default function Services() {
                   onChange={(e) => updateFilter("search", e.target.value)}
                 />
               </div>
-              <div className="services-sort-wrap" style={{ position: "relative", minWidth: 190, maxWidth: 220 }}>
-                <select 
-                  className="form-select" 
-                  value={filters.sort} 
-                  onChange={(e) => updateFilter("sort", e.target.value)}
-                  style={{ height: 44, fontSize: 14 }}
-                >
-                  {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-                </select>
+              <div className="services-topbar-actions">
+                <div className="services-sort-wrap">
+                  <select 
+                    className="form-select" 
+                    value={filters.sort} 
+                    onChange={(e) => updateFilter("sort", e.target.value)}
+                    style={{ height: 44, fontSize: 14 }}
+                  >
+                    {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+                  </select>
+                </div>
+                <button className="btn btn-outline btn-sm services-filter-btn" onClick={() => setShowFilters(true)} style={{ height: 44, padding: "0 18px", whiteSpace: "nowrap" }}>
+                  <FiSliders /> Filters {activeFiltersCount > 0 && `(${activeFiltersCount})`}
+                </button>
               </div>
-              <button className="btn btn-outline btn-sm" onClick={() => setShowFilters(true)} style={{ height: 44, padding: "0 18px" }}>
-                <FiSliders /> Filters {activeFiltersCount > 0 && `(${activeFiltersCount})`}
-              </button>
             </div>
 
             {/* Active filter chips */}

@@ -12,14 +12,7 @@ export default function Footer() {
       {/* Trust & Guarantee Banner (Urban Company Standard) */}
       <div style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.06)", padding: "28px 0" }}>
         <div className="container">
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-              gap: 20,
-              alignItems: "center",
-            }}
-          >
+          <div className="footer-trust-grid">
             <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
               <div style={{
                 width: 44, height: 44, borderRadius: 10,

@@ -108,8 +108,7 @@ export default function Home() {
                 placeholder="Your city"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                className="search-input"
-                style={{ maxWidth: 160 }}
+                className="search-input hero-city-input"
               />
             </div>
             <button type="submit" className="btn btn-primary hero-search-btn">
@@ -230,7 +229,7 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-              <div style={{ display: "flex", gap: 12, marginTop: 28 }}>
+              <div className="vendor-cta-buttons">
                 <Link to="/register" className="btn btn-primary btn-lg">
                   Register as Vendor <FiArrowRight />
                 </Link>

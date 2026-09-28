@@ -165,14 +165,7 @@ export default function PrivacyPolicy() {
       {/* Consumer Privacy Policy Tab (Urban Company Standard) */}
       {activeTab === "consumer" && (
         <div className="container" style={{ padding: "48px 16px 80px" }}>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "260px 1fr",
-              gap: 40,
-              alignItems: "flex-start",
-            }}
-          >
+          <div className="privacy-layout">
             {/* Sticky Table of Contents */}
             <div
               style={{

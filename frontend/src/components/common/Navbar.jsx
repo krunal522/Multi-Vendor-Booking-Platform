@@ -186,27 +186,109 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile Menu Button */}
-        <button className="mobile-menu-btn" onClick={() => setMenuOpen(!menuOpen)}>
-          {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-        </button>
+        {/* Mobile Header Controls */}
+        <div style={{ display: "none" }} className="mobile-header-actions">
+          {user && (
+            <button 
+              className="icon-btn" 
+              onClick={() => { setNotifOpen(!notifOpen); if (!notifOpen) markAllRead(); }}
+              style={{ marginRight: 8 }}
+              aria-label="Notifications"
+            >
+              <FiBell size={19} />
+              {unread > 0 && <span className="notif-badge">{unread > 9 ? "9+" : unread}</span>}
+            </button>
+          )}
+          <button 
+            className="mobile-menu-btn" 
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle Navigation Menu"
+          >
+            {menuOpen ? <FiX size={22} /> : <FiMenu size={22} />}
+          </button>
+        </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Drawer */}
       {menuOpen && (
         <div className="mobile-menu">
-          <Link to="/" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Home</Link>
-          <Link to="/services" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Services</Link>
-          {!user ? (
+          {user ? (
+            <div className="mobile-user-card">
+              <div className="avatar-sm">
+                {user.avatar ? <img src={user.avatar} alt={user.name} /> : <span>{user.name?.[0]?.toUpperCase()}</span>}
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontWeight: 700, fontSize: 14, color: "#fff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                  {user.name}
+                </div>
+                <div className="text-muted text-xs" style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                  {user.email}
+                </div>
+                <span 
+                  className={`badge badge-${user.role === "admin" ? "danger" : user.role === "vendor" ? "warning" : "info"}`} 
+                  style={{ marginTop: 4, textTransform: "capitalize", fontSize: 10, padding: "2px 7px" }}
+                >
+                  ● {user.role}
+                </span>
+              </div>
+            </div>
+          ) : null}
+
+          <Link to="/" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>
+            <FiCompass size={18} /> Home
+          </Link>
+          <Link to="/services" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>
+            <FiGrid size={18} /> Services
+          </Link>
+
+          {user ? (
             <>
-              <Link to="/login" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Sign In</Link>
-              <Link to="/register" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Register</Link>
+              <Link to={getDashboardLink()} className="mobile-nav-link" onClick={() => setMenuOpen(false)}>
+                <MdDashboard size={18} /> Dashboard
+              </Link>
+              {user.role === "customer" && (
+                <Link to="/customer/bookings" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>
+                  <FiCalendar size={18} /> My Bookings
+                </Link>
+              )}
+              {user.role === "vendor" && (
+                <>
+                  <Link to="/vendor/services" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>
+                    <FiGrid size={18} /> My Services
+                  </Link>
+                  <Link to="/vendor/bookings" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>
+                    <FiCalendar size={18} /> Customer Bookings
+                  </Link>
+                </>
+              )}
+              {user.role === "admin" && (
+                <>
+                  <Link to="/admin/services" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>
+                    <FiGrid size={18} /> Manage Services
+                  </Link>
+                  <Link to="/admin/users" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>
+                    <FiUsers size={18} /> Manage Users
+                  </Link>
+                </>
+              )}
+              <div className="dropdown-divider" style={{ margin: "10px 0" }} />
+              <button 
+                className="mobile-nav-link" 
+                style={{ background: "rgba(239, 68, 68, 0.08)", border: "none", width: "100%", cursor: "pointer", color: "#f87171" }} 
+                onClick={() => { setMenuOpen(false); logout(); }}
+              >
+                <FiLogOut size={18} /> Logout
+              </button>
             </>
           ) : (
-            <>
-              <Link to={getDashboardLink()} className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Dashboard</Link>
-              <button className="mobile-nav-link" style={{ background: "none", border: "none", textAlign: "left", cursor: "pointer", color: "var(--danger)" }} onClick={() => { setMenuOpen(false); logout(); }}>Logout</button>
-            </>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 12 }}>
+              <Link to="/login" className="btn btn-outline btn-sm" style={{ width: "100%" }} onClick={() => setMenuOpen(false)}>
+                Sign In
+              </Link>
+              <Link to="/register" className="btn btn-primary btn-sm" style={{ width: "100%" }} onClick={() => setMenuOpen(false)}>
+                Register
+              </Link>
+            </div>
           )}
         </div>
       )}
