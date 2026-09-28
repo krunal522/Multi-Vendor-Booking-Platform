@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
+import BottomNav from "./components/common/BottomNav";
 
 const Home            = lazy(() => import("./pages/Home"));
 const Login           = lazy(() => import("./pages/Login"));
@@ -68,6 +69,8 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
+      <BottomNav />
     </BrowserRouter>
   );
 }
+

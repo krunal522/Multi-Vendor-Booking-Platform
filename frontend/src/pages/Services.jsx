@@ -3,7 +3,8 @@ import { useSearchParams, Link } from "react-router-dom";
 import Navbar from "../components/common/Navbar";
 import Footer from "../components/common/Footer";
 import api from "../utils/api";
-import { FiSearch, FiStar, FiFilter, FiX, FiSliders, FiClock } from "react-icons/fi";
+import { FiSearch, FiStar, FiFilter, FiX, FiSliders, FiClock, FiChevronRight } from "react-icons/fi";
+import { MdVerified } from "react-icons/md";
 import { getServiceImage } from "../utils/serviceImages";
 
 const CATEGORIES = ["Salon", "Home Cleaning", "Plumbing", "Electrical", "AC Repair", "Pest Control", "Painting", "Carpentry", "Appliance Repair", "Beauty & Spa"];
@@ -224,28 +225,33 @@ function ServiceCard({ service }) {
           }}
         />
         {service.isFeatured && <span className="featured-badge">⭐ Featured</span>}
+        <div className="service-card-duration-badge">
+          <FiClock size={11} /> {service.duration || 60}m
+        </div>
       </div>
       <div className="service-card-body">
-        <div className="service-card-cat">{service.category}</div>
+        <div className="service-card-top-row">
+          <div className="service-card-cat">{service.category}</div>
+          <div className="service-card-rating-pill">
+            <FiStar fill="#f59e0b" color="#f59e0b" size={12} />
+            <span>{service.rating ? service.rating.toFixed(1) : "4.8"}</span>
+            <span className="text-muted text-xs">({service.totalReviews || 12})</span>
+          </div>
+        </div>
         <h3 className="service-card-title">{service.title}</h3>
         <div className="service-card-vendor">
-          <div className="avatar-xs">{service.vendor?.name?.[0]}</div>
-          {service.vendor?.businessName || service.vendor?.name}
+          <div className="avatar-xs">{service.vendor?.name?.[0] || "P"}</div>
+          <span className="service-vendor-name">{service.vendor?.businessName || service.vendor?.name || "Verified Pro"}</span>
+          <MdVerified color="#38bdf8" size={14} title="Verified Professional" />
         </div>
         <div className="service-card-footer">
           <div className="service-card-price">
             <span className="price-type">{service.priceType === "starting_from" ? "From " : ""}</span>
             ₹{service.price?.toLocaleString()}
           </div>
-          <div className="service-card-rating">
-            <FiStar fill="#f59e0b" color="#f59e0b" size={13} />
-            <span>{service.rating?.toFixed(1) || "New"}</span>
-            <span className="text-muted text-sm">({service.totalReviews})</span>
-          </div>
-        </div>
-        <div className="service-card-meta">
-          <span className="text-muted text-sm"><FiClock size={12} /> {service.duration} min</span>
-          <span className="text-muted text-sm">📍 {service.location?.city}</span>
+          <span className="service-card-action-link">
+            Book <FiChevronRight />
+          </span>
         </div>
       </div>
     </Link>
