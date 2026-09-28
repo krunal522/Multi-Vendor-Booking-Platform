@@ -121,7 +121,7 @@ export default function CustomerDashboard() {
           </div>
 
           {/* Quick Actions */}
-          <div className="quick-actions">
+          <div className="quick-actions" style={{ marginBottom: 40, paddingBottom: 20 }}>
             <h3 className="font-semibold" style={{ marginBottom: 16 }}>Quick Actions</h3>
             <div className="grid-3">
               {[

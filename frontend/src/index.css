@@ -2375,12 +2375,19 @@ input, textarea, select {
     box-shadow: 0 0 8px var(--primary);
   }
 
-  /* Safe padding so bottom nav doesn't cover footer or forms */
-  .footer {
-    padding-bottom: 90px !important;
-  }
+  /* Safe bottom padding so fixed mobile bottom dock NEVER covers content, quick-actions, or forms */
   .page-wrapper {
-    padding-bottom: 20px;
+    padding-bottom: calc(96px + env(safe-area-inset-bottom, 20px)) !important;
+  }
+  .dashboard-page {
+    padding-bottom: 32px !important;
+  }
+  .quick-actions {
+    margin-bottom: 40px !important;
+    padding-bottom: 24px !important;
+  }
+  .footer {
+    padding-bottom: calc(100px + env(safe-area-inset-bottom, 20px)) !important;
   }
 
   /* Responsive Guarantees & Testimonials */
