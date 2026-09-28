@@ -5,17 +5,83 @@ import Footer from "../components/common/Footer";
 import api from "../utils/api";
 import { FiSearch, FiStar, FiChevronRight, FiArrowRight, FiCheck } from "react-icons/fi";
 import { MdVerified } from "react-icons/md";
+import { 
+  FaScissors, 
+  FaBroom, 
+  FaWrench, 
+  FaBolt, 
+  FaSnowflake, 
+  FaBug, 
+  FaPaintRoller, 
+  FaHammer 
+} from "react-icons/fa6";
 import { getServiceImage } from "../utils/serviceImages";
 
 const CATEGORIES = [
-  { name: "Salon", icon: "✂️", color: "#ec4899", bg: "rgba(236,72,153,0.1)" },
-  { name: "Home Cleaning", icon: "🧹", color: "#06b6d4", bg: "rgba(6,182,212,0.1)" },
-  { name: "Plumbing", icon: "🔧", color: "#f59e0b", bg: "rgba(245,158,11,0.1)" },
-  { name: "Electrical", icon: "⚡", color: "#6366f1", bg: "rgba(99,102,241,0.1)" },
-  { name: "AC Repair", icon: "❄️", color: "#0ea5e9", bg: "rgba(14,165,233,0.1)" },
-  { name: "Pest Control", icon: "🐛", color: "#10b981", bg: "rgba(16,185,129,0.1)" },
-  { name: "Painting", icon: "🎨", color: "#8b5cf6", bg: "rgba(139,92,246,0.1)" },
-  { name: "Carpentry", icon: "🪚", color: "#f97316", bg: "rgba(249,115,22,0.1)" },
+  { 
+    name: "Salon", 
+    Icon: FaScissors, 
+    color: "#f43f5e", 
+    gradient: "linear-gradient(135deg, rgba(244,63,94,0.24) 0%, rgba(236,72,153,0.08) 100%)",
+    border: "rgba(244,63,94,0.32)",
+    glow: "rgba(244,63,94,0.38)",
+  },
+  { 
+    name: "Home Cleaning", 
+    Icon: FaBroom, 
+    color: "#06b6d4", 
+    gradient: "linear-gradient(135deg, rgba(6,182,212,0.24) 0%, rgba(14,165,233,0.08) 100%)",
+    border: "rgba(6,182,212,0.32)",
+    glow: "rgba(6,182,212,0.38)",
+  },
+  { 
+    name: "Plumbing", 
+    Icon: FaWrench, 
+    color: "#f59e0b", 
+    gradient: "linear-gradient(135deg, rgba(245,158,11,0.24) 0%, rgba(217,119,6,0.08) 100%)",
+    border: "rgba(245,158,11,0.32)",
+    glow: "rgba(245,158,11,0.38)",
+  },
+  { 
+    name: "Electrical", 
+    Icon: FaBolt, 
+    color: "#818cf8", 
+    gradient: "linear-gradient(135deg, rgba(99,102,241,0.24) 0%, rgba(139,92,246,0.08) 100%)",
+    border: "rgba(99,102,241,0.32)",
+    glow: "rgba(99,102,241,0.38)",
+  },
+  { 
+    name: "AC Repair", 
+    Icon: FaSnowflake, 
+    color: "#38bdf8", 
+    gradient: "linear-gradient(135deg, rgba(56,189,248,0.24) 0%, rgba(6,182,212,0.08) 100%)",
+    border: "rgba(56,189,248,0.32)",
+    glow: "rgba(56,189,248,0.38)",
+  },
+  { 
+    name: "Pest Control", 
+    Icon: FaBug, 
+    color: "#10b981", 
+    gradient: "linear-gradient(135deg, rgba(16,185,129,0.24) 0%, rgba(5,150,105,0.08) 100%)",
+    border: "rgba(16,185,129,0.32)",
+    glow: "rgba(16,185,129,0.38)",
+  },
+  { 
+    name: "Painting", 
+    Icon: FaPaintRoller, 
+    color: "#c084fc", 
+    gradient: "linear-gradient(135deg, rgba(168,85,247,0.24) 0%, rgba(139,92,246,0.08) 100%)",
+    border: "rgba(168,85,247,0.32)",
+    glow: "rgba(168,85,247,0.38)",
+  },
+  { 
+    name: "Carpentry", 
+    Icon: FaHammer, 
+    color: "#fb923c", 
+    gradient: "linear-gradient(135deg, rgba(251,146,60,0.24) 0%, rgba(234,88,12,0.08) 100%)",
+    border: "rgba(251,146,60,0.32)",
+    glow: "rgba(251,146,60,0.38)",
+  },
 ];
 
 const STATS = [
@@ -154,14 +220,31 @@ export default function Home() {
             </Link>
           </div>
           <div className="categories-grid">
-            {CATEGORIES.map((cat) => (
-              <button key={cat.name} className="category-card" onClick={() => handleCategoryClick(cat.name)}>
-                <div className="category-icon" style={{ background: cat.bg, color: cat.color }}>
-                  {cat.icon}
-                </div>
-                <span className="category-name">{cat.name}</span>
-              </button>
-            ))}
+            {CATEGORIES.map((cat) => {
+              const IconComponent = cat.Icon;
+              return (
+                <button
+                  key={cat.name}
+                  className="category-card"
+                  style={{
+                    "--cat-color": cat.color,
+                    "--cat-glow": cat.glow,
+                  }}
+                  onClick={() => handleCategoryClick(cat.name)}
+                >
+                  <div
+                    className="category-icon-wrapper"
+                    style={{
+                      background: cat.gradient,
+                      borderColor: cat.border,
+                    }}
+                  >
+                    <IconComponent className="category-vector-icon" style={{ color: cat.color }} />
+                  </div>
+                  <span className="category-name">{cat.name}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>
