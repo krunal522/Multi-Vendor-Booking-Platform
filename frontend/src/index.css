@@ -2375,19 +2375,19 @@ input, textarea, select {
     box-shadow: 0 0 8px var(--primary);
   }
 
-  /* Safe bottom padding so fixed mobile bottom dock NEVER covers content, quick-actions, or forms */
+  /* Precise mobile bottom dock clearance: 64px dock + 12px neat breathing room */
   .page-wrapper {
-    padding-bottom: calc(96px + env(safe-area-inset-bottom, 20px)) !important;
+    padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
   }
   .dashboard-page {
-    padding-bottom: 32px !important;
+    padding-bottom: 0 !important;
   }
   .quick-actions {
-    margin-bottom: 40px !important;
-    padding-bottom: 24px !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
   }
   .footer {
-    padding-bottom: calc(100px + env(safe-area-inset-bottom, 20px)) !important;
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important;
   }
 
   /* Responsive Guarantees & Testimonials */
