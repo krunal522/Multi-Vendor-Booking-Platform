@@ -636,9 +636,100 @@ input, textarea, select {
 .footer-col h4{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;color:var(--text-muted);}
 .footer-link{display:block;font-size:14px;color:var(--text-muted);padding:5px 0;transition:var(--transition);}
 .footer-link:hover{color:var(--primary);}
-.footer-socials{display:flex;gap:12px;margin-top:16px;}
-.social-link{width:36px;height:36px;background:var(--surface2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--text-muted);transition:var(--transition);}
-.social-link:hover{background:var(--primary);color:white;}
+.footer-socials {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  align-items: center;
+}
+
+.social-link {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  /* Anti-Flicker & Hardware Acceleration (Touch & Pointer Safe) */
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none;
+  user-select: none;
+  outline: none !important;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.2s ease,
+              border-color 0.2s ease,
+              color 0.2s ease,
+              box-shadow 0.2s ease;
+  will-change: transform;
+  cursor: pointer;
+}
+
+.social-link svg {
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), color 0.18s ease;
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.social-link:hover {
+  transform: translateY(-2px) translateZ(0);
+}
+
+.social-link:hover svg {
+  transform: scale(1.08);
+}
+
+/* Zero-Flicker Active / Press State */
+.social-link:active {
+  transform: scale(0.92) translateZ(0) !important;
+  transition: transform 0.08s ease !important;
+}
+
+.social-link:focus {
+  outline: none !important;
+}
+
+.social-link:focus-visible {
+  outline: 2px solid #6366f1 !important;
+  outline-offset: 2px !important;
+}
+
+/* Individual Brand Signatures */
+.social-link-twitter:hover {
+  background: #000000 !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6) !important;
+}
+
+.social-link-linkedin:hover {
+  background: #0a66c2 !important;
+  border-color: #0a66c2 !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 18px rgba(10, 102, 194, 0.4) !important;
+}
+
+.social-link-instagram:hover {
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%) !important;
+  border-color: rgba(214, 36, 159, 0.5) !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 18px rgba(225, 48, 108, 0.38) !important;
+}
+
+.social-link-youtube:hover {
+  background: #ff0000 !important;
+  border-color: #ff0000 !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 18px rgba(255, 0, 0, 0.4) !important;
+}
 .footer-bottom {
   display: flex;
   justify-content: space-between;

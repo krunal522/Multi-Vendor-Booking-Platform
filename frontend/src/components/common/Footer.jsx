@@ -5,6 +5,9 @@ import {
   FiShield, FiAward, FiLock, FiPhoneCall, 
   FiCheckCircle, FiHeart, FiSmartphone, FiArrowRight 
 } from "react-icons/fi";
+import { 
+  FaInstagram, FaXTwitter, FaLinkedinIn, FaYoutube 
+} from "react-icons/fa6";
 
 export default function Footer() {
   return (
@@ -97,10 +100,46 @@ export default function Footer() {
             </div>
 
             <div className="footer-socials">
-              <a href="https://twitter.com" target="_blank" rel="noreferrer" className="social-link" title="Twitter / X">𝕏</a>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="social-link" title="LinkedIn">in</a>
-              <a href="https://instagram.com" target="_blank" rel="noreferrer" className="social-link" title="Instagram">ig</a>
-              <a href="https://youtube.com" target="_blank" rel="noreferrer" className="social-link" title="YouTube">▶</a>
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-link social-link-twitter"
+                title="Follow ServeBook on X (Twitter)"
+                aria-label="ServeBook on X (Twitter)"
+              >
+                <FaXTwitter size={16} />
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-link social-link-linkedin"
+                title="Connect with ServeBook on LinkedIn"
+                aria-label="ServeBook on LinkedIn"
+              >
+                <FaLinkedinIn size={16} />
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-link social-link-instagram"
+                title="Follow ServeBook on Instagram"
+                aria-label="ServeBook on Instagram"
+              >
+                <FaInstagram size={17} />
+              </a>
+              <a
+                href="https://youtube.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-link social-link-youtube"
+                title="Subscribe to ServeBook on YouTube"
+                aria-label="ServeBook on YouTube"
+              >
+                <FaYoutube size={17} />
+              </a>
             </div>
           </div>
 
