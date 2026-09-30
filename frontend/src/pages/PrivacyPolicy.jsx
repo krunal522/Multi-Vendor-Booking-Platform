@@ -117,14 +117,16 @@ export default function PrivacyPolicy() {
               className={`policy-mode-tab ${activeTab === "consumer" ? "active" : ""}`}
               onClick={() => setActiveTab("consumer")}
             >
-              📋 Privacy Policy
+              <FiFileText size={15} />
+              <span>Privacy Policy</span>
             </button>
             <button
               type="button"
               className={`policy-mode-tab ${activeTab === "security_audit" ? "active" : ""}`}
               onClick={() => setActiveTab("security_audit")}
             >
-              🛡️ Security Architecture
+              <FiShield size={15} />
+              <span>Security Architecture</span>
             </button>
           </div>
         </div>
