@@ -147,45 +147,18 @@ export default function PrivacyPolicy() {
       {activeTab === "consumer" && (
         <div className="container" style={{ padding: "48px 16px 80px" }}>
           <div className="privacy-layout">
-            {/* Sticky Table of Contents */}
-            <div
-              style={{
-                position: "sticky",
-                top: 90,
-                background: "var(--surface)",
-                border: "1px solid var(--border)",
-                borderRadius: "var(--radius-lg)",
-                padding: "20px 16px",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: 11,
-                  fontWeight: 700,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.06em",
-                  color: "var(--text-muted)",
-                  marginBottom: 12,
-                }}
-              >
+            {/* Table of Contents: Sticky on Desktop, Horizontal Pills on Mobile */}
+            <div className="privacy-sidebar card">
+              <div className="privacy-sidebar-title">
                 Policy Sections
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+              <div className="privacy-sidebar-nav">
                 {legalSections.map((sec) => (
                   <a
                     key={sec.id}
                     href={`#${sec.id}`}
                     onClick={() => setActiveSection(sec.id)}
-                    style={{
-                      padding: "8px 12px",
-                      borderRadius: 6,
-                      fontSize: 12.5,
-                      textDecoration: "none",
-                      color: activeSection === sec.id ? "var(--primary)" : "var(--text-muted)",
-                      background: activeSection === sec.id ? "rgba(99, 102, 241, 0.1)" : "transparent",
-                      fontWeight: activeSection === sec.id ? 700 : 500,
-                      transition: "all 0.2s ease",
-                    }}
+                    className={`privacy-sidebar-link ${activeSection === sec.id ? "active" : ""}`}
                   >
                     {sec.title}
                   </a>
@@ -246,9 +219,9 @@ export default function PrivacyPolicy() {
                 <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, color: "#fff" }}>
                   3. Payments & Financial Data Protection
                 </h2>
-                <div style={{ padding: "16px 20px", background: "rgba(16, 185, 129, 0.08)", border: "1px solid rgba(16, 185, 129, 0.2)", borderRadius: 8, marginBottom: 16 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#34d399", fontWeight: 700, marginBottom: 6 }}>
-                    <FiCheckCircle size={18} /> Zero Storage of Financial Credentials
+                <div className="zero-storage-banner">
+                  <div className="zero-storage-title">
+                    <FiCheckCircle size={18} color="#10b981" /> Zero Storage of Financial Credentials
                   </div>
                   <p className="text-muted text-sm" style={{ margin: 0 }}>
                     ServeBook <strong>NEVER</strong> stores your UPI PINs, credit/debit card numbers, CVVs, or net banking passwords on our servers. All transactions are securely processed through RBI-approved, PCI-DSS Level-1 certified payment gateways.
@@ -292,22 +265,22 @@ export default function PrivacyPolicy() {
                 <p className="text-muted" style={{ marginBottom: 12 }}>
                   Under the Digital Personal Data Protection Act of India, you hold fundamental rights as a Data Principal:
                 </p>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                  <div style={{ padding: 12, background: "var(--surface2)", borderRadius: 6 }}>
-                    <strong style={{ color: "#fff", fontSize: 13 }}>Right to Access:</strong>
-                    <div className="text-muted text-xs">Inspect all personal data and active bookings stored in your profile.</div>
+                <div className="dpdp-rights-grid">
+                  <div className="dpdp-right-card">
+                    <strong className="dpdp-right-title">Right to Access:</strong>
+                    <p className="dpdp-right-desc">Inspect all personal data and active bookings stored in your profile.</p>
                   </div>
-                  <div style={{ padding: 12, background: "var(--surface2)", borderRadius: 6 }}>
-                    <strong style={{ color: "#fff", fontSize: 13 }}>Right to Correction:</strong>
-                    <div className="text-muted text-xs">Update inaccurate phone numbers, names, or addresses at any time.</div>
+                  <div className="dpdp-right-card">
+                    <strong className="dpdp-right-title">Right to Correction:</strong>
+                    <p className="dpdp-right-desc">Update inaccurate phone numbers, names, or addresses at any time.</p>
                   </div>
-                  <div style={{ padding: 12, background: "var(--surface2)", borderRadius: 6 }}>
-                    <strong style={{ color: "#fff", fontSize: 13 }}>Right to Grievance Redressal:</strong>
-                    <div className="text-muted text-xs">Direct escalation to our designated statutory Grievance Officer.</div>
+                  <div className="dpdp-right-card">
+                    <strong className="dpdp-right-title">Right to Grievance Redressal:</strong>
+                    <p className="dpdp-right-desc">Direct escalation to our designated statutory Grievance Officer.</p>
                   </div>
-                  <div style={{ padding: 12, background: "var(--surface2)", borderRadius: 6 }}>
-                    <strong style={{ color: "#fff", fontSize: 13 }}>Right to Nominate:</strong>
-                    <div className="text-muted text-xs">Designate an authorized representative in case of incapacity.</div>
+                  <div className="dpdp-right-card">
+                    <strong className="dpdp-right-title">Right to Nominate:</strong>
+                    <p className="dpdp-right-desc">Designate an authorized representative in case of incapacity.</p>
                   </div>
                 </div>
               </section>
@@ -346,17 +319,7 @@ export default function PrivacyPolicy() {
                   In accordance with Information Technology Act, 2000 and Rules made thereunder, the name and contact details of the Grievance Officer are published below:
                 </p>
 
-                <div
-                  style={{
-                    padding: 24,
-                    background: "var(--surface2)",
-                    border: "1px solid var(--border)",
-                    borderRadius: 12,
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                    gap: 20,
-                  }}
-                >
+                <div className="grievance-box">
                   <div>
                     <div style={{ fontWeight: 700, fontSize: 16, color: "#fff" }}>Mr. Rohit Verma</div>
                     <div className="text-muted text-sm">Grievance Redressal & Data Protection Officer</div>
@@ -369,11 +332,11 @@ export default function PrivacyPolicy() {
                   </div>
 
                   <div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, marginBottom: 6 }}>
-                      <FiMail color="var(--primary)" /> <strong>Email:</strong> grievance@servebook.in
+                    <div className="grievance-contact-item">
+                      <FiMail color="var(--primary)" /> <span><strong>Email:</strong> grievance@servebook.in</span>
                     </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, marginBottom: 6 }}>
-                      <FiPhone color="var(--primary)" /> <strong>Phone:</strong> 022-6890-4100
+                    <div className="grievance-contact-item">
+                      <FiPhone color="var(--primary)" /> <span><strong>Phone:</strong> 022-6890-4100</span>
                     </div>
                     <div className="text-muted text-xs" style={{ marginTop: 8 }}>
                       Resolution Turnaround: 24 to 48 working hours.
