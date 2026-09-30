@@ -15,7 +15,9 @@ import {
   FiHeadphones,
   FiClock,
   FiCopy,
-  FiCheckCircle
+  FiCheckCircle,
+  FiMapPin,
+  FiTrendingUp
 } from "react-icons/fi";
 import { MdVerified } from "react-icons/md";
 import { 
@@ -420,30 +422,53 @@ export default function Home() {
             </button>
           </form>
 
-          {/* Popular Cities Pills */}
-          <div className="hero-cities-row">
-            <span className="hero-cities-label">Popular Cities:</span>
-            <div className="hero-cities-list">
-              {POPULAR_CITIES.map((c) => (
-                <button
-                  key={c}
-                  type="button"
-                  className={`hero-city-tag ${city === c ? "active" : ""}`}
-                  onClick={() => handleCitySelect(c)}
-                >
-                  📍 {c}
-                </button>
-              ))}
+          {/* Organized Quick Filters: Swipeable Cities & Trending Services (Urban Company Style) */}
+          <div className="hero-quick-filters">
+            {/* Row 1: Popular Cities Track */}
+            <div className="hero-filter-row">
+              <span className="hero-filter-label">
+                <FiMapPin size={12} color="var(--primary)" /> Popular Cities:
+              </span>
+              <div className="hero-scroll-track">
+                {POPULAR_CITIES.map((c) => (
+                  <button
+                    key={c}
+                    type="button"
+                    className={`hero-scroll-chip ${city === c ? "active" : ""}`}
+                    onClick={() => handleCitySelect(c)}
+                  >
+                    <FiMapPin size={11} className="chip-pin-icon" />
+                    <span>{c}</span>
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
 
-          {/* Quick Search Tags */}
-          <div className="hero-tags">
-            {["Salon", "AC Repair", "Home Cleaning", "Plumbing", "Electrical"].map((tag) => (
-              <button key={tag} className="hero-tag" onClick={() => handleCategoryClick(tag)}>
-                {tag}
-              </button>
-            ))}
+            {/* Row 2: Trending Services Track */}
+            <div className="hero-filter-row">
+              <span className="hero-filter-label">
+                <FiTrendingUp size={12} color="#f59e0b" /> Trending:
+              </span>
+              <div className="hero-scroll-track">
+                {[
+                  { name: "Salon", icon: "✨" },
+                  { name: "AC Repair", icon: "❄️" },
+                  { name: "Home Cleaning", icon: "🧹" },
+                  { name: "Plumbing", icon: "🔧" },
+                  { name: "Electrical", icon: "⚡" }
+                ].map((item) => (
+                  <button
+                    key={item.name}
+                    type="button"
+                    className="hero-scroll-chip service-chip"
+                    onClick={() => handleCategoryClick(item.name)}
+                  >
+                    <span>{item.icon}</span>
+                    <span>{item.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
