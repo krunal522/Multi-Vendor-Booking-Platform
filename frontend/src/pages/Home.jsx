@@ -739,6 +739,14 @@ export default function Home() {
   );
 }
 
+function formatDuration(mins) {
+  const m = parseInt(mins, 10) || 45;
+  if (m < 60) return `${m}m`;
+  const hrs = Math.floor(m / 60);
+  const rem = m % 60;
+  return rem > 0 ? `${hrs}h ${rem}m` : `${hrs} hrs`;
+}
+
 function ServiceCard({ service }) {
   const imageUrl = getServiceImage(service);
   const originalPrice = service.originalPrice || Math.round((service.price || 499) * 1.45);
@@ -767,9 +775,15 @@ function ServiceCard({ service }) {
             <span className="service-discount-pill">{discountPercent}</span>
           </div>
 
-          {/* Bottom Duration Badge */}
+          {/* Bottom Arrival & Duration Glassmorphic Pill */}
           <div className="service-card-duration-badge">
-            <FiClock size={11} /> {service.duration || 45}m • ⚡ 30m Arrival
+            <span className="arrival-highlight">
+              <FiZap size={11} className="arrival-bolt-icon" /> 30m Arrival
+            </span>
+            <span className="badge-dot-divider">•</span>
+            <span className="duration-highlight">
+              <FiClock size={11} /> {formatDuration(service.duration)}
+            </span>
           </div>
         </div>
 

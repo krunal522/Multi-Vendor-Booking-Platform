@@ -3,7 +3,7 @@ import { useSearchParams, Link } from "react-router-dom";
 import Navbar from "../components/common/Navbar";
 import Footer from "../components/common/Footer";
 import api from "../utils/api";
-import { FiSearch, FiStar, FiFilter, FiX, FiSliders, FiClock, FiChevronRight } from "react-icons/fi";
+import { FiSearch, FiStar, FiFilter, FiX, FiSliders, FiClock, FiChevronRight, FiZap } from "react-icons/fi";
 import { MdVerified } from "react-icons/md";
 import { getServiceImage } from "../utils/serviceImages";
 
@@ -212,6 +212,14 @@ export default function Services() {
   );
 }
 
+function formatDuration(mins) {
+  const m = parseInt(mins, 10) || 60;
+  if (m < 60) return `${m}m`;
+  const hrs = Math.floor(m / 60);
+  const rem = m % 60;
+  return rem > 0 ? `${hrs}h ${rem}m` : `${hrs} hrs`;
+}
+
 function ServiceCard({ service }) {
   const imageUrl = getServiceImage(service);
   return (
@@ -226,7 +234,13 @@ function ServiceCard({ service }) {
         />
         {service.isFeatured && <span className="featured-badge">⭐ Featured</span>}
         <div className="service-card-duration-badge">
-          <FiClock size={11} /> {service.duration || 60}m
+          <span className="arrival-highlight">
+            <FiZap size={11} className="arrival-bolt-icon" /> 30m Arrival
+          </span>
+          <span className="badge-dot-divider">•</span>
+          <span className="duration-highlight">
+            <FiClock size={11} /> {formatDuration(service.duration)}
+          </span>
         </div>
       </div>
       <div className="service-card-body">
