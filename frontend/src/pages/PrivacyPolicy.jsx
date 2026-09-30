@@ -101,7 +101,7 @@ export default function PrivacyPolicy() {
             <MdSecurity size={16} /> Trust & Transparency Center
           </div>
 
-          <h1 style={{ fontSize: 34, fontWeight: 800, marginBottom: 12 }}>
+          <h1 className="privacy-hero-title">
             ServeBook Privacy Policy & Trust Standards
           </h1>
           <p className="text-muted" style={{ fontSize: 15, lineHeight: 1.7, marginBottom: 24 }}>
@@ -145,7 +145,7 @@ export default function PrivacyPolicy() {
 
       {/* Consumer Privacy Policy Tab (Urban Company Standard) */}
       {activeTab === "consumer" && (
-        <div className="container" style={{ padding: "48px 16px 80px" }}>
+        <div className="container privacy-container">
           <div className="privacy-layout">
             {/* Table of Contents: Sticky on Desktop, Horizontal Pills on Mobile */}
             <div className="privacy-sidebar card">
@@ -167,10 +167,10 @@ export default function PrivacyPolicy() {
             </div>
 
             {/* Content Body */}
-            <div style={{ maxWidth: 800, lineHeight: 1.8 }}>
+            <div className="privacy-content">
               {/* Section 1 */}
-              <section id="collection" style={{ marginBottom: 44 }}>
-                <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, color: "#fff" }}>
+              <section id="collection" className="privacy-section">
+                <h2 className="privacy-section-title">
                   1. Information We Collect
                 </h2>
                 <p className="text-muted" style={{ marginBottom: 14 }}>
@@ -199,8 +199,8 @@ export default function PrivacyPolicy() {
               </section>
 
               {/* Section 2 */}
-              <section id="usage" style={{ marginBottom: 44 }}>
-                <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, color: "#fff" }}>
+              <section id="usage" className="privacy-section">
+                <h2 className="privacy-section-title">
                   2. How We Use Your Information
                 </h2>
                 <p className="text-muted" style={{ marginBottom: 14 }}>
@@ -215,8 +215,8 @@ export default function PrivacyPolicy() {
               </section>
 
               {/* Section 3 */}
-              <section id="payment" style={{ marginBottom: 44 }}>
-                <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, color: "#fff" }}>
+              <section id="payment" className="privacy-section">
+                <h2 className="privacy-section-title">
                   3. Payments & Financial Data Protection
                 </h2>
                 <div className="zero-storage-banner">
@@ -233,8 +233,8 @@ export default function PrivacyPolicy() {
               </section>
 
               {/* Section 4 */}
-              <section id="sharing" style={{ marginBottom: 44 }}>
-                <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, color: "#fff" }}>
+              <section id="sharing" className="privacy-section">
+                <h2 className="privacy-section-title">
                   4. Sharing Information with Service Partners
                 </h2>
                 <p className="text-muted" style={{ marginBottom: 12 }}>
@@ -248,8 +248,8 @@ export default function PrivacyPolicy() {
               </section>
 
               {/* Section 5 */}
-              <section id="retention" style={{ marginBottom: 44 }}>
-                <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, color: "#fff" }}>
+              <section id="retention" className="privacy-section">
+                <h2 className="privacy-section-title">
                   5. Data Retention & Account Erasure
                 </h2>
                 <p className="text-muted">
@@ -258,8 +258,8 @@ export default function PrivacyPolicy() {
               </section>
 
               {/* Section 6 */}
-              <section id="rights" style={{ marginBottom: 44 }}>
-                <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, color: "#fff" }}>
+              <section id="rights" className="privacy-section">
+                <h2 className="privacy-section-title">
                   6. Your Rights Under the DPDP Act 2023
                 </h2>
                 <p className="text-muted" style={{ marginBottom: 12 }}>
@@ -286,8 +286,8 @@ export default function PrivacyPolicy() {
               </section>
 
               {/* Section 7 */}
-              <section id="cookies" style={{ marginBottom: 44 }}>
-                <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, color: "#fff" }}>
+              <section id="cookies" className="privacy-section">
+                <h2 className="privacy-section-title">
                   7. Cookies & Session Management
                 </h2>
                 <p className="text-muted">
@@ -296,8 +296,8 @@ export default function PrivacyPolicy() {
               </section>
 
               {/* Section 8 */}
-              <section id="refund" style={{ marginBottom: 44 }}>
-                <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, color: "#fff" }}>
+              <section id="refund" className="privacy-section">
+                <h2 className="privacy-section-title">
                   8. Refund & Cancellation Terms
                 </h2>
                 <p className="text-muted" style={{ marginBottom: 12 }}>
@@ -311,8 +311,8 @@ export default function PrivacyPolicy() {
               </section>
 
               {/* Section 9 */}
-              <section id="grievance" style={{ marginBottom: 44 }}>
-                <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, color: "#fff" }}>
+              <section id="grievance" className="privacy-section">
+                <h2 className="privacy-section-title">
                   9. Grievance Redressal Officer (IT Act 2000 Compliance)
                 </h2>
                 <p className="text-muted" style={{ marginBottom: 16 }}>
