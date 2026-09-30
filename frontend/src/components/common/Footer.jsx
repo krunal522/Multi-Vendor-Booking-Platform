@@ -8,7 +8,7 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="footer" style={{ background: "#0a0d14", borderTop: "1px solid rgba(255, 255, 255, 0.08)" }}>
+    <footer className="footer">
       {/* Trust & Guarantee Banner (Urban Company Standard) */}
       <div style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.06)", padding: "28px 0" }}>
         <div className="container">
@@ -73,7 +73,7 @@ export default function Footer() {
       </div>
 
       {/* Main 4-Column Directory */}
-      <div className="container" style={{ padding: "48px 16px 36px" }}>
+      <div className="container footer-container">
         <div className="footer-grid">
           {/* Brand Info */}
           <div className="footer-brand">
