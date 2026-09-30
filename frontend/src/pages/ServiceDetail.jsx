@@ -5,7 +5,7 @@ import Footer from "../components/common/Footer";
 import api from "../utils/api";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
-import { FiStar, FiClock, FiMapPin, FiPhone, FiChevronLeft, FiCalendar, FiCheck, FiAlertCircle } from "react-icons/fi";
+import { FiStar, FiClock, FiMapPin, FiPhone, FiChevronLeft, FiCalendar, FiCheck, FiCheckCircle, FiAlertCircle } from "react-icons/fi";
 import { MdVerified } from "react-icons/md";
 import { format, addDays } from "date-fns";
 import { getServiceImage } from "../utils/serviceImages";
@@ -360,36 +360,77 @@ export default function ServiceDetail() {
                   <>
                     {/* Quick slot picker */}
                     <div className="form-group" style={{ marginTop: 20 }}>
-                      <label className="form-label"><FiCalendar /> Select Date</label>
+                      <label className="form-label" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <span style={{ display: "flex", alignItems: "center", gap: 6 }}><FiCalendar /> Select Date</span>
+                        <span className="text-muted text-xs">Next 7 Days</span>
+                      </label>
                       <div className="date-picker">
                         {upcomingDates.slice(0, 7).map((date) => {
                           const hasSlots = service.slots?.some((s) => s.date === date && !s.isBooked);
+                          const dateObj = new Date(date + "T00:00:00");
                           return (
-                            <button key={date} disabled={!hasSlots}
+                            <button
+                              key={date}
+                              type="button"
+                              disabled={!hasSlots}
                               className={`date-btn ${selectedDate === date ? "date-btn-active" : ""} ${!hasSlots ? "date-btn-disabled" : ""}`}
-                              onClick={() => { setSelectedDate(date); setSelectedSlot(null); }}>
-                              <div className="date-btn-day">{format(new Date(date + "T00:00:00"), "EEE")}</div>
-                              <div className="date-btn-num">{format(new Date(date + "T00:00:00"), "d")}</div>
+                              onClick={() => { setSelectedDate(date); setSelectedSlot(null); }}
+                            >
+                              <div className="date-btn-day">{format(dateObj, "EEE")}</div>
+                              <div className="date-btn-num">{format(dateObj, "d")}</div>
+                              <div className="date-btn-month">{format(dateObj, "MMM")}</div>
                             </button>
                           );
                         })}
                       </div>
+
+                      {/* Selected Date Confirmation Banner */}
+                      {selectedDate && (
+                        <div className="selected-date-indicator">
+                          <div className="selected-date-info">
+                            <FiCalendar size={13} color="var(--primary)" />
+                            <span>{format(new Date(selectedDate + "T00:00:00"), "EEEE, MMMM d, yyyy")}</span>
+                          </div>
+                          <span className="selected-date-badge">
+                            {availableSlots.length} {availableSlots.length === 1 ? "Slot" : "Slots"} Available
+                          </span>
+                        </div>
+                      )}
                     </div>
 
                     {selectedDate && (
                       <div className="form-group">
-                        <label className="form-label">Available Slots</label>
+                        <label className="form-label" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <span>Available Slots</span>
+                          {selectedSlot && (
+                            <span style={{ fontSize: 12, color: "#10b981", fontWeight: 600 }}>
+                              ✓ Slot Selected
+                            </span>
+                          )}
+                        </label>
                         {availableSlots.length === 0 ? (
                           <p className="text-muted text-sm">No slots available for this date</p>
                         ) : (
                           <div className="slots-grid">
                             {availableSlots.map((slot) => (
-                              <button key={slot._id}
+                              <button
+                                key={slot._id}
+                                type="button"
                                 className={`slot-btn ${selectedSlot?._id === slot._id ? "slot-btn-active" : ""}`}
-                                onClick={() => setSelectedSlot(slot)}>
+                                onClick={() => setSelectedSlot(slot)}
+                              >
                                 {slot.startTime} - {slot.endTime}
                               </button>
                             ))}
+                          </div>
+                        )}
+
+                        {selectedSlot && (
+                          <div className="selected-slot-banner">
+                            <FiCheckCircle size={14} color="#10b981" />
+                            <span>
+                              Selected: <strong>{selectedSlot.startTime} - {selectedSlot.endTime}</strong> ({format(new Date(selectedDate + "T00:00:00"), "d MMM")})
+                            </span>
                           </div>
                         )}
                       </div>
@@ -397,7 +438,7 @@ export default function ServiceDetail() {
 
                     <button
                       className="btn btn-primary w-full btn-lg"
-                      style={{ marginTop: 8 }}
+                      style={{ marginTop: 12 }}
                       onClick={() => {
                         if (!user) { navigate("/login"); return; }
                         if (!selectedSlot) { toast.error("Please select a time slot"); return; }
@@ -412,8 +453,10 @@ export default function ServiceDetail() {
                   <div className="booking-form">
                     <div className="booking-summary">
                       <FiCheck color="var(--success)" />
-                      <span className="text-sm">{selectedDate} · {selectedSlot?.startTime} - {selectedSlot?.endTime}</span>
-                      <button onClick={() => setShowBooking(false)} className="text-sm" style={{ color: "var(--primary)", background: "none", border: "none", cursor: "pointer" }}>Change</button>
+                      <span className="text-sm">
+                        <strong>{format(new Date(selectedDate + "T00:00:00"), "EEE, d MMM yyyy")}</strong> · {selectedSlot?.startTime} - {selectedSlot?.endTime}
+                      </span>
+                      <button onClick={() => setShowBooking(false)} className="text-sm" style={{ color: "var(--primary)", background: "none", border: "none", cursor: "pointer", marginLeft: "auto", fontWeight: 600 }}>Change</button>
                     </div>
                     <div className="form-group">
                       <label className="form-label" style={{ display: "flex", justifyContent: "space-between" }}>

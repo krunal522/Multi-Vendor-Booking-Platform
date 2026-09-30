@@ -156,22 +156,25 @@ export default function Footer() {
         </div>
 
         {/* Corporate Legal Footer Bottom */}
-        <div className="footer-bottom" style={{ borderTop: "1px solid rgba(255, 255, 255, 0.06)", paddingTop: 24, marginTop: 24 }}>
-          <div>
+        <div className="footer-bottom">
+          <div className="footer-copyright-block">
             <div style={{ fontSize: 12, color: "#94a3b8" }}>
               © 2026 ServeBook Technologies Private Limited. All rights reserved.
             </div>
-            <div style={{ fontSize: 11, color: "#64748b", marginTop: 2 }}>
+            <div style={{ fontSize: 11, color: "#64748b", marginTop: 4, lineHeight: 1.5 }}>
               CIN: U72900MH2024PTC398124 · Registered with Ministry of Corporate Affairs, Government of India.
             </div>
           </div>
 
-          <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }}>
-            <Link to="/privacy-policy" className="text-xs text-muted hover-underline">Privacy</Link>
-            <span className="text-muted text-xs">·</span>
-            <Link to="/privacy-policy" className="text-xs text-muted hover-underline">Terms</Link>
-            <span className="text-muted text-xs">·</span>
-            <span className="text-xs text-muted">Made with <FiHeart color="#ef4444" style={{ display: "inline" }} /> in India</span>
+          <div className="footer-legal-bar">
+            <div className="footer-legal-group">
+              <Link to="/privacy-policy" className="footer-legal-link">Privacy Policy</Link>
+              <span className="footer-legal-dot">•</span>
+              <Link to="/privacy-policy#terms" className="footer-legal-link">Terms</Link>
+            </div>
+            <div className="footer-made-in-india">
+              Made with <FiHeart color="#ef4444" size={12} style={{ display: "inline", verticalAlign: "middle", margin: "0 2px" }} /> in India
+            </div>
           </div>
         </div>
       </div>

@@ -4,6 +4,18 @@ import Navbar from "../../components/common/Navbar";
 import api from "../../utils/api";
 import { useAuth } from "../../context/AuthContext";
 import { FiCalendar, FiStar, FiShoppingBag, FiTrendingUp, FiArrowRight, FiClock } from "react-icons/fi";
+import { format } from "date-fns";
+
+const formatBookingDate = (dateStr) => {
+  if (!dateStr) return "";
+  try {
+    const d = new Date(dateStr + (dateStr.includes("T") ? "" : "T00:00:00"));
+    if (isNaN(d.getTime())) return dateStr;
+    return format(d, "EEE, d MMM yyyy");
+  } catch {
+    return dateStr;
+  }
+};
 
 export default function CustomerDashboard() {
   const { user } = useAuth();
@@ -103,7 +115,7 @@ export default function CustomerDashboard() {
                       <div className="booking-row-info">
                         <div className="font-semibold">{booking.service?.title}</div>
                         <div className="text-muted text-sm">
-                          <FiClock size={11} /> {booking.slot?.date} · {booking.slot?.startTime}
+                          <FiClock size={11} /> {formatBookingDate(booking.slot?.date)} · {booking.slot?.startTime}
                         </div>
                       </div>
                       <div className="booking-row-vendor text-muted text-sm">

@@ -20,6 +20,7 @@ import {
   FiMail,
   FiMessageSquare,
 } from "react-icons/fi";
+import { format } from "date-fns";
 
 const STATUS_COLORS = {
   pending: "warning",
@@ -28,6 +29,17 @@ const STATUS_COLORS = {
   completed: "success",
   cancelled: "danger",
   rejected: "danger",
+};
+
+const formatBookingDate = (dateStr) => {
+  if (!dateStr) return "";
+  try {
+    const d = new Date(dateStr + (dateStr.includes("T") ? "" : "T00:00:00"));
+    if (isNaN(d.getTime())) return dateStr;
+    return format(d, "EEE, d MMM yyyy");
+  } catch {
+    return dateStr;
+  }
 };
 
 const formatStatusLabel = (s) => {
@@ -385,7 +397,7 @@ function BookingCard({ booking, onCancel, onReview, onViewInvoice }) {
 
         <div className="booking-card-meta">
           <div className="booking-card-date">
-            <FiClock size={13} /> {booking.slot?.date} · {booking.slot?.startTime}
+            <FiClock size={13} /> {formatBookingDate(booking.slot?.date)} · {booking.slot?.startTime}
           </div>
           <div className="booking-card-amount">₹{booking.totalAmount?.toLocaleString()}</div>
           <span className={`badge badge-${STATUS_COLORS[booking.status] || "info"}`}>

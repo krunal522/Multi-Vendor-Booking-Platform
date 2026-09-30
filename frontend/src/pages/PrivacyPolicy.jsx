@@ -17,6 +17,7 @@ import {
   FiMapPin,
   FiAlertCircle,
   FiLayers,
+  FiCalendar,
 } from "react-icons/fi";
 import { MdVerified, MdSecurity, MdGavel } from "react-icons/md";
 
@@ -107,56 +108,36 @@ export default function PrivacyPolicy() {
             We believe your home and personal data deserve uncompromising protection. This policy outlines how ServeBook Technologies Pvt. Ltd. collects, safeguards, and handles your information.
           </p>
 
-          <div style={{ display: "flex", justifyContent: "center", gap: 16, fontSize: 13, color: "var(--text-muted)", flexWrap: "wrap" }}>
-            <span><strong>Effective Date:</strong> September 27, 2026</span>
-            <span>·</span>
-            <span><strong>Entity:</strong> ServeBook Technologies Pvt. Ltd. (CIN: U72900MH2024PTC398124)</span>
-            <span>·</span>
-            <span><MdVerified color="#10b981" style={{ display: "inline" }} /> DPDP Act 2023 Compliant</span>
+          <div className="policy-meta-badges">
+            <span className="policy-meta-chip">
+              <FiCalendar size={13} color="var(--primary)" />
+              <span>Effective: Sep 27, 2026</span>
+            </span>
+            <span className="policy-meta-chip">
+              <FiCheckCircle size={13} color="#38bdf8" />
+              <span>CIN: U72900MH2024PTC398124</span>
+            </span>
+            <span className="policy-meta-chip policy-meta-chip-success">
+              <MdVerified color="#10b981" />
+              <span>DPDP Act 2023 Compliant</span>
+            </span>
           </div>
 
           {/* Mode Switcher Tabs */}
-          <div
-            style={{
-              display: "inline-flex",
-              background: "var(--surface2)",
-              border: "1px solid var(--border)",
-              borderRadius: 30,
-              padding: 4,
-              marginTop: 28,
-            }}
-          >
+          <div className="policy-mode-tabs">
             <button
+              type="button"
+              className={`policy-mode-tab ${activeTab === "consumer" ? "active" : ""}`}
               onClick={() => setActiveTab("consumer")}
-              style={{
-                padding: "8px 20px",
-                borderRadius: 24,
-                border: "none",
-                background: activeTab === "consumer" ? "var(--primary)" : "transparent",
-                color: activeTab === "consumer" ? "#fff" : "var(--text-muted)",
-                fontWeight: 600,
-                fontSize: 13,
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-              }}
             >
-              📋 Consumer & Partner Privacy Policy
+              📋 Privacy Policy
             </button>
             <button
+              type="button"
+              className={`policy-mode-tab ${activeTab === "security_audit" ? "active" : ""}`}
               onClick={() => setActiveTab("security_audit")}
-              style={{
-                padding: "8px 20px",
-                borderRadius: 24,
-                border: "none",
-                background: activeTab === "security_audit" ? "var(--primary)" : "transparent",
-                color: activeTab === "security_audit" ? "#fff" : "var(--text-muted)",
-                fontWeight: 600,
-                fontSize: 13,
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-              }}
             >
-              🛡️ Platform Security Architecture
+              🛡️ Security Architecture
             </button>
           </div>
         </div>
