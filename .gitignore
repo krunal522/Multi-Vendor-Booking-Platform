@@ -29,3 +29,8 @@ backend/uploads/*
 # OS Files
 .DS_Store
 Thumbs.db
+
+# Vercel
+.vercel
+frontend/.vercel
+
